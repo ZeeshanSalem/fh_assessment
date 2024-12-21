@@ -1,4 +1,5 @@
 import 'package:fh_assignment/core/utils/app_colors.dart';
+import 'package:fh_assignment/core/utils/typography.dart';
 import 'package:flutter/material.dart';
 
 ///
@@ -20,16 +21,11 @@ class YourBalanceTile extends StatelessWidget {
             RichText(
               text: TextSpan(
                   text: 'Your Balance\n',
-                  style: TextStyle(
-                    fontSize: 14,
-                  ),
+                  style: AppTypography.lightTheme.bodySmall?.copyWith(color: Colors.white),
                   children: [
                     TextSpan(
                       text: 'AED 3000',
-                      style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.w600,
-                      ),
+                      style: AppTypography.lightTheme.headlineLarge?.copyWith(color: Colors.white),
                     ),
                   ]),
             ),

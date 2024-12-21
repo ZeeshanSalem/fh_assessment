@@ -1,3 +1,4 @@
+import 'package:fh_assignment/core/utils/typography.dart';
 import 'package:flutter/material.dart';
 
 class FeatureButton extends StatelessWidget {
@@ -38,10 +39,7 @@ class FeatureButton extends StatelessWidget {
           ),
           Text(
             '$btnName',
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-            ),
+            style:  AppTypography.lightTheme.bodyMedium,
           ),
         ],
       ),

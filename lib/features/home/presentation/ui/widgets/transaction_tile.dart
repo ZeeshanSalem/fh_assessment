@@ -1,4 +1,5 @@
 import 'package:fh_assignment/core/utils/app_colors.dart';
+import 'package:fh_assignment/core/utils/typography.dart';
 import 'package:flutter/material.dart';
 
 class TransactionTile extends StatelessWidget {
@@ -27,24 +28,20 @@ class TransactionTile extends StatelessWidget {
             children: [
               Text(
                 'Transfer to Alex',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.black,
-                ),
+                style: AppTypography.lightTheme.bodyMedium,
               ),
               Text(
                 '27, May 2024 04:38 PM',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey,
-                ),
+                style: AppTypography.lightTheme.bodySmall,
               ),
             ],
           ),
         ),
         Text(
           '- AED 20',
-          style: TextStyle(fontSize: 16, color: CustomColors.error),
+          style: AppTypography.lightTheme.headlineMedium?.copyWith(
+            color: CustomColors.error,
+          ),
         ),
       ],
     );

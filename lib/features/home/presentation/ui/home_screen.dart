@@ -1,4 +1,5 @@
 import 'package:fh_assignment/core/utils/app_colors.dart';
+import 'package:fh_assignment/core/utils/typography.dart';
 import 'package:fh_assignment/features/home/presentation/ui/widgets/widget.dart';
 import 'package:flutter/material.dart';
 
@@ -23,15 +24,11 @@ class HomeScreen extends StatelessWidget {
         title: RichText(
           text: TextSpan(
               text: 'Welcome back\n',
-              style: TextStyle(fontSize: 14, color: Colors.black),
+              style: AppTypography.lightTheme.titleMedium,
               children: [
                 TextSpan(
                   text: 'Zeeshan Saleem',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: CustomColors.primary,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: AppTypography.lightTheme.titleLarge,
                 ),
               ]),
         ),
@@ -57,8 +54,8 @@ class HomeScreen extends StatelessWidget {
 
             /// Feature Action Buttons.
             Text(
-              'Feature',
-              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+              'Features',
+              style: AppTypography.lightTheme.titleMedium,
             ),
             Row(
               spacing: 10,
@@ -83,7 +80,7 @@ class HomeScreen extends StatelessWidget {
             ///  Transaction.
             Text(
               'Transaction',
-              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+              style: AppTypography.lightTheme.titleMedium,
             ),
 
             ListView.separated(
