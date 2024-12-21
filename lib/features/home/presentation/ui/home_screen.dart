@@ -1,7 +1,9 @@
+import 'package:fh_assignment/core/routing/routers.dart';
 import 'package:fh_assignment/core/utils/app_colors.dart';
 import 'package:fh_assignment/core/utils/typography.dart';
 import 'package:fh_assignment/features/home/presentation/ui/widgets/widget.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -64,7 +66,9 @@ class HomeScreen extends StatelessWidget {
                   child: FeatureButton(
                     btnIcon: Icons.add,
                     btnName: 'Top Up',
-                    onPress: () {},
+                    onPress: () {
+                      context.pushNamed(Routes.topUpRoute);
+                    },
                   ),
                 ),
                 Expanded(
