@@ -21,7 +21,7 @@ class TransactionTile extends StatelessWidget {
         ),
         Expanded(
           child: Column(
-            spacing: 4,
+            spacing: 2,
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
