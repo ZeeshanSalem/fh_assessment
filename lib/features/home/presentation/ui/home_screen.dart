@@ -45,14 +45,53 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
           spacing: 10,
           children: [
-            ///
+            /// Total Balance  tile
             YourBalanceTile(),
+
+            /// Feature Action Buttons.
+            Text(
+              'Feature',
+              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+            ),
+            Row(
+              spacing: 10,
+              children: [
+                Expanded(
+                  child: FeatureButton(
+                    btnIcon: Icons.add,
+                    btnName: 'Top Up',
+                    onPress: () {},
+                  ),
+                ),
+                Expanded(
+                  child: FeatureButton(
+                    btnIcon: Icons.send,
+                    btnName: 'Transfer',
+                    onPress: () {},
+                  ),
+                ),
+              ],
+            ),
+
+            ///  Transaction.
+            Text(
+              'Transaction',
+              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+            ),
+
+            ListView.separated(
+              itemBuilder: (context, index) => TransactionTile(),
+              separatorBuilder: (context, index) => Divider(color: Colors.grey,),
+              itemCount: 5,
+              shrinkWrap: true,
+            ),
           ],
         ),
       ),
