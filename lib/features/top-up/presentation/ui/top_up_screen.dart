@@ -1,8 +1,6 @@
 import 'package:fh_assignment/core/utils/app_colors.dart';
 import 'package:fh_assignment/core/utils/typography.dart';
-import 'package:fh_assignment/features/top-up/presentation/ui/widgets/amount_tile.dart';
 import 'package:flutter/material.dart';
-
 import 'widgets/widget.dart';
 
 class TopUpScreen extends StatelessWidget {
@@ -50,7 +48,7 @@ class TopUpScreen extends StatelessWidget {
                         CircleBorder(),
                       ),
                       backgroundColor: WidgetStateProperty.all(
-                        CustomColors.primary
+                          CustomColors.primary
                       ),
                       padding: WidgetStateProperty.all(EdgeInsets.all(02)),
 
@@ -65,12 +63,14 @@ class TopUpScreen extends StatelessWidget {
               ),
             ),
             ListView.separated(
-              itemBuilder: (context, index) => BeneficiaryTile(
-                isSelected: index == 0,
-              ),
-              separatorBuilder: (context, index) => Divider(
-                color: Colors.grey,
-              ),
+              itemBuilder: (context, index) =>
+                  BeneficiaryTile(
+                    isSelected: index == 0,
+                  ),
+              separatorBuilder: (context, index) =>
+                  Divider(
+                    color: Colors.grey,
+                  ),
               itemCount: 5,
               shrinkWrap: true,
             ),

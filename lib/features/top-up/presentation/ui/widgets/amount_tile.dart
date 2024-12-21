@@ -1,50 +1,47 @@
+import 'package:fh_assignment/core/di/injection_container_common.dart';
 import 'package:fh_assignment/core/utils/app_colors.dart';
 import 'package:fh_assignment/core/utils/typography.dart';
+import 'package:fh_assignment/features/top-up/presentation/cubit/top_up_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-/// Todo: Move stf to cubit/bloc
-class AmountTile extends StatefulWidget {
+class AmountTile extends StatelessWidget {
   const AmountTile({super.key});
 
   @override
-  State<AmountTile> createState() => _AmountTileState();
-}
-
-class _AmountTileState extends State<AmountTile> {
-  List<String> amounts = [
-    'AED 5',
-    'AED 10',
-    'AED 20',
-    'AED 30',
-    'AED 50',
-    'AED 75',
-    'AED 100',
-  ];
-
-  int? selectedAmount ;
-
-  @override
   Widget build(BuildContext context) {
-    return Wrap(
-      spacing: 5,
-      children: List.generate(
-        amounts.length,
-        (index) => ChoiceChip(
-          selectedColor: CustomColors.primary,
-          checkmarkColor: Colors.white,
-          disabledColor: Colors.grey,
-          labelStyle: AppTypography.lightTheme.bodyMedium?.copyWith(
-            color: selectedAmount == index ? Colors.white : Colors.black,
+    return BlocBuilder<TopUpCubit, TopUpState>(
+      builder: (context, state) {
+        final topUpCubit = context.read<TopUpCubit>();
+        return Wrap(
+          spacing: 5,
+          children: List.generate(
+            topUpCubit.rechargeableAmounts.length,
+            (index) => ChoiceChip(
+              selectedColor: CustomColors.primary,
+              checkmarkColor: Colors.white,
+              disabledColor: Colors.grey,
+              labelStyle: AppTypography.lightTheme.bodyMedium?.copyWith(
+                color: state.selectedAmount ==
+                        topUpCubit.rechargeableAmounts[index]
+                    ? Colors.white
+                    : Colors.black,
+              ),
+              label: Text(topUpCubit.rechargeableAmounts[index]),
+              selected:
+                  state.selectedAmount == topUpCubit.rechargeableAmounts[index],
+              onSelected: (value) {
+                if (value) {
+                  topUpCubit.selectAmountForRecharge(
+                      topUpCubit.rechargeableAmounts[index]);
+                } else {
+                  topUpCubit.selectAmountForRecharge(null);
+                }
+              },
+            ),
           ),
-          label: Text(amounts[index]),
-          selected: selectedAmount == index,
-          onSelected: (value) {
-            setState(() {
-              selectedAmount = value ? index : null;
-            });
-          },
-        ),
-      ),
+        );
+      },
     );
   }
 }

@@ -1,9 +1,11 @@
-
+import 'package:fh_assignment/core/di/injection_container_common.dart';
+import 'package:fh_assignment/features/top-up/data/repository_imp/top_up_repository_impl.dart';
+import 'package:fh_assignment/features/top-up/domain/repository/top_up_repository.dart';
 
 Future<void> initDomainDI() async {
-  // FIXME: Replace it with
-  // serviceLocator.registerLazySingleton<DashboardRepo>(() => DashboardRepoImpl(
-  //       dashboardRemoteDataSource: serviceLocator(),
-  //       networkInfo: serviceLocator(),
-  //     ));
+  serviceLocator
+      .registerLazySingleton<TopUpRepository>(() => TopUpRepositoryImpl(
+            topUpDataSource: serviceLocator(),
+            networkInfo: serviceLocator(),
+          ));
 }
