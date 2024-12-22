@@ -20,6 +20,12 @@ class AppTheme {
         side: BorderSide(color: Colors.grey)
           )),
     ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ButtonStyle(
+        backgroundColor: WidgetStateProperty.all(CustomColors.primary),
+        textStyle: WidgetStateProperty.all(AppTypography.lightTheme.bodyMedium?.copyWith(color: Colors.white))
+      )
+    ),
     cardTheme: CardTheme(
       surfaceTintColor: CustomColors.lightPurple,
       shape: RoundedRectangleBorder(

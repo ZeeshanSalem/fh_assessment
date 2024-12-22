@@ -52,7 +52,19 @@ class TopUpScreen extends StatelessWidget {
                             Constant.maxAllowBeneficiaries
                         ? const SizedBox()
                         : ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AddBeneficiaryDialog(
+                                  onAddBeneficiary: (phoneNumber, nickname) {
+                                    // Handle the added beneficiary
+                                    print("Phone Number: $phoneNumber");
+                                    print("Nickname: $nickname");
+                                  },
+                                ),
+                              );
+
+                            },
                             style: ButtonStyle(
                               shape: WidgetStateProperty.all(
                                 CircleBorder(),

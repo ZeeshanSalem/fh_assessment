@@ -14,7 +14,6 @@ class BeneficiariesTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<BeneficiaryCubit, BeneficiaryState>(
       builder: (context, state) {
-        print('State ${state.status}');
         if (state.status == BeneficiaryStatus.loading) {
           return ShimmerLoadingTile();
         }
