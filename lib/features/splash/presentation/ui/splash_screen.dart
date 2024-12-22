@@ -29,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return BlocListener<HomeCubit, HomeState>(
       listener: (context, state) {
         if (state.status == HomeStatus.success) {
-          context.pushReplacementNamed(
+          context.goNamed(
             Routes.homeRoute,
           );
         }
