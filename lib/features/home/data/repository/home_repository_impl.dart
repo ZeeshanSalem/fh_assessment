@@ -30,4 +30,10 @@ class HomeRepositoryImpl extends HomeRepository {
       }
     }
 
+  @override
+  Future<Either<Exception, User>> getTransaction() {
+    // TODO: implement getTransaction
+    throw UnimplementedError();
+  }
+
 }

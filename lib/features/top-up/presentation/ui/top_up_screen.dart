@@ -22,7 +22,7 @@ class TopUpScreen extends StatelessWidget {
           style: AppTypography.lightTheme.titleLarge,
         ),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(
           horizontal: 10,
           vertical: 10,
@@ -50,7 +50,7 @@ class TopUpScreen extends StatelessWidget {
                         ),
 
                         // @Dev : if beneficiaries greater than total user will be able to add beneficiary.
-                        ((state.beneficiaries ?? []).length) >
+                        ((state.beneficiaries ?? []).length) >=
                             Constant.maxAllowBeneficiaries
                             ? const SizedBox()
                             : ElevatedButton(

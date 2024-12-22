@@ -1,14 +1,18 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:fh_assignment/core/di/injection_container_common.dart';
 import 'package:fh_assignment/core/error/exception.dart';
 import 'package:fh_assignment/core/network/network_client.dart';
+import 'package:fh_assignment/core/network/network_constant.dart';
 import 'package:fh_assignment/core/utils/constants.dart';
 import 'package:fh_assignment/core/utils/preferences_utils.dart';
 import 'package:flutter/services.dart';
 
 abstract class HomeLocalDataSource {
   Future<dynamic> getProfile();
+  Future<dynamic> getTransactions();
+
 }
 
 class HomeLocalDataSourceImpl extends HomeLocalDataSource {
@@ -16,6 +20,24 @@ class HomeLocalDataSourceImpl extends HomeLocalDataSource {
   PreferencesUtil preferences = serviceLocator<PreferencesUtil>();
 
   HomeLocalDataSourceImpl({required this.networkClient});
+
+
+  @override
+  Future<dynamic> getTransactions() async {
+    final response =
+    await networkClient.invoke(allTransaction, RequestType.get);
+    if (response.statusCode == 200) {
+      return response.data;
+    } else {
+      throw ServerException(
+        dioException: DioException(
+          requestOptions: response.requestOptions,
+          error: response,
+          type: DioExceptionType.badResponse,
+        ),
+      );
+    }
+  }
 
   @override
   Future<dynamic> getProfile() async {
