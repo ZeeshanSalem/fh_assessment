@@ -17,7 +17,9 @@ class BeneficiaryCubit extends BaseCubit<BeneficiaryState> {
           const BeneficiaryState(
             status: BeneficiaryStatus.initial,
           ),
-        );
+        ){
+    getBeneficiaries();
+  }
 
   /// Get all beneficiaries
   Future<void> getBeneficiaries() async {
