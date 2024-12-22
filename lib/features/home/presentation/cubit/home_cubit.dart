@@ -44,4 +44,12 @@ class HomeCubit extends BaseCubit<HomeState> {
       ));
     }
   }
+
+  onAccountVerification(bool isVerify) async {
+    emit(state.copyWith(status: HomeStatus.loading,),);
+    User user  = User.fromJson(state.user!.toJson());
+    user.accountStatus = isVerify;
+    emit(state.copyWith(status: HomeStatus.success,
+    user: user));
+  }
 }

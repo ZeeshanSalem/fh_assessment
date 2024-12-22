@@ -28,10 +28,7 @@ class HomeLocalDataSourceImpl extends HomeLocalDataSource {
       } else {
         return _loadJsonData();
       }
-    } catch (e,s) {
-      print('Exception getProfile $e');
-      print('Exception Stack $s');
-
+    } catch (e, s) {
       throw GeneralException(
         message: 'Failed: $e',
       );
@@ -41,8 +38,9 @@ class HomeLocalDataSourceImpl extends HomeLocalDataSource {
   Future<dynamic> _loadJsonData() async {
     final String jsonString =
         await rootBundle.loadString('assets/data/profile.json');
-
-
-    return jsonDecode(jsonString) as Map<String, dynamic>;
+    Map<String, dynamic> profileJson =
+        jsonDecode(jsonString) as Map<String, dynamic>;
+    preferences.setPreferencesData(Constant.kProfile, jsonEncode(profileJson));
+    return profileJson;
   }
 }

@@ -1,8 +1,10 @@
 import 'package:fh_assignment/core/routing/routers.dart';
 import 'package:fh_assignment/core/utils/app_colors.dart';
 import 'package:fh_assignment/core/utils/typography.dart';
+import 'package:fh_assignment/features/home/presentation/cubit/home_cubit.dart';
 import 'package:fh_assignment/features/home/presentation/ui/widgets/widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -11,7 +13,8 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawerEnableOpenDragGesture:true,
+      drawerEnableOpenDragGesture: true,
+
       /// 1. `AppBar` : contain 1. Avatar 2. UserName
       appBar: AppBar(
         leading: Padding(
@@ -19,32 +22,36 @@ class HomeScreen extends StatelessWidget {
             left: 8,
           ),
           child: Builder(
-            builder: (buildContext) {
-              return InkWell(
-                splashColor: Colors.white,
-                onTap: (){
-                  Scaffold.of(buildContext).openDrawer();
-                },
-                child: CircleAvatar(
-                  child: Icon(
-                    Icons.person,
-                    size: 32,
+              builder: (buildContext) {
+                return InkWell(
+                  splashColor: Colors.white,
+                  onTap: () {
+                    Scaffold.of(buildContext).openDrawer();
+                  },
+                  child: CircleAvatar(
+                    child: Icon(
+                      Icons.person,
+                      size: 32,
+                    ),
                   ),
-                ),
-              );
-            }
+                );
+              }
           ),
         ),
-        title: RichText(
-          text: TextSpan(
-              text: 'Welcome back\n',
-              style: AppTypography.lightTheme.titleMedium,
-              children: [
-                TextSpan(
-                  text: 'Zeeshan Saleem',
-                  style: AppTypography.lightTheme.titleLarge,
-                ),
-              ]),
+        title: BlocBuilder<HomeCubit, HomeState>(
+          builder: (context, state) {
+            return RichText(
+              text: TextSpan(
+                  text: 'Welcome back\n',
+                  style: AppTypography.lightTheme.titleMedium,
+                  children: [
+                    TextSpan(
+                      text: '${state.user?.name}',
+                      style: AppTypography.lightTheme.titleLarge,
+                    ),
+                  ]),
+            );
+          },
         ),
         actions: [
           IconButton(
@@ -68,6 +75,7 @@ class HomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           spacing: 10,
           children: [
+
             /// Total Balance  tile
             YourBalanceTile(),
 
@@ -106,7 +114,8 @@ class HomeScreen extends StatelessWidget {
 
             ListView.separated(
               itemBuilder: (context, index) => TransactionTile(),
-              separatorBuilder: (context, index) => Divider(color: Colors.grey,),
+              separatorBuilder: (context, index) =>
+                  Divider(color: Colors.grey,),
               itemCount: 5,
               shrinkWrap: true,
             ),

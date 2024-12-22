@@ -28,7 +28,7 @@ class HomeState extends Equatable {
     return HomeState(
       status: status ?? this.status,
       errorModel: errorModel ?? this.errorModel,
-      user: user,
+      user: user ?? this.user,
     );
   }
 

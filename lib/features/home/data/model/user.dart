@@ -2,7 +2,7 @@
 /// Profile Model Contain.
 /// 1. name: `String` profile or nickName -.
 /// 2. totalBalance: `double` Total available Balance in wallet - default `0.0`.
-/// 3. accountStatus: `bool` indicate is account is verified - default `false`.
+/// 3. accountStatus: `bool` indicate is account is verified - default `true`.
 ///
 class User {
   String? name;
@@ -18,7 +18,7 @@ class User {
   User.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     totalBalance = json['totalBalance'] ?? 0.0;
-    accountStatus = json['accountStatus'] ?? false;
+    accountStatus = json['accountStatus'] ?? true;
   }
 
   Map<String, dynamic> toJson() {

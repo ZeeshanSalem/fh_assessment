@@ -1,6 +1,8 @@
 import 'package:fh_assignment/core/utils/app_colors.dart';
 import 'package:fh_assignment/core/utils/typography.dart';
+import 'package:fh_assignment/features/home/presentation/cubit/home_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 ///
 /// Balance Tile contain total amount and currency with top-up action button.
@@ -18,16 +20,22 @@ class YourBalanceTile extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            RichText(
-              text: TextSpan(
-                  text: 'Your Balance\n',
-                  style: AppTypography.lightTheme.bodySmall?.copyWith(color: Colors.white),
-                  children: [
-                    TextSpan(
-                      text: 'AED 3000',
-                      style: AppTypography.lightTheme.headlineLarge?.copyWith(color: Colors.white),
-                    ),
-                  ]),
+            BlocBuilder<HomeCubit, HomeState>(
+              builder: (context, state) {
+                return RichText(
+                  text: TextSpan(
+                      text: 'Your Balance\n',
+                      style: AppTypography.lightTheme.bodySmall?.copyWith(
+                          color: Colors.white),
+                      children: [
+                        TextSpan(
+                          text: 'AED ${state.user?.totalBalance ?? 0}',
+                          style: AppTypography.lightTheme.headlineLarge
+                              ?.copyWith(color: Colors.white),
+                        ),
+                      ]),
+                );
+              },
             ),
             IconButton(
               onPressed: () {},
