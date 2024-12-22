@@ -21,7 +21,7 @@ abstract class BaseCubit<State> extends BlocBase<State> {
     );
 
     if(exception is ServerException){
-
+      return handleException(exception);
     } else if(exception is NoInternetException){
       errorModel.message =  "No internet connection available";
     } else  if(exception is CubitException) {

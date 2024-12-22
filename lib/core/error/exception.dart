@@ -46,3 +46,11 @@ class CacheException implements Exception {
     this.message,
   });
 }
+
+class GeneralException implements Exception {
+  String? message;
+
+  GeneralException({
+    this.message,
+  });
+}

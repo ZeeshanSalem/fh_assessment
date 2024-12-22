@@ -1,4 +1,4 @@
 class Constant {
-  static String kAccessTokenPref = "access_token";
+  static String kBeneficiaries = "beneficiaries";
 
 }
