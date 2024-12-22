@@ -1,7 +1,9 @@
+import 'package:fh_assignment/core/utils/enums.dart';
+
 class Transaction {
   String? createdAt;
   String? beneficiary;
-  String? type;
+  TransactionType? type;
   String? amount;
   String? accountNumber;
   String? currency;
@@ -19,7 +21,7 @@ class Transaction {
   Transaction.fromJson(Map<String, dynamic> json) {
     createdAt = json['createdAt'];
     beneficiary = json['beneficiary'];
-    type = json['type'];
+    type = _transactionTypeFromString(json['type']); // Map string to enum
     amount = json['amount'];
     accountNumber = json['accountNumber'];
     currency = json['currency'];
@@ -30,11 +32,20 @@ class Transaction {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['createdAt'] = createdAt;
     data['beneficiary'] = beneficiary;
-    data['type'] = type;
+    data['type'] = type?.name;
     data['amount'] = amount;
     data['accountNumber'] = accountNumber;
     data['currency'] = currency;
     data['id'] = id;
     return data;
+  }
+
+  // Helper function to convert string to enum
+  TransactionType? _transactionTypeFromString(String? type) {
+    if (type == null) return null;
+    return TransactionType.values.firstWhere(
+          (e) => e.name == type,
+      orElse: () => throw ArgumentError('Invalid transaction type: $type'),
+    );
   }
 }

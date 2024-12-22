@@ -1,7 +1,12 @@
 part of 'transaction_list_tile.dart';
 
 class TransactionTile extends StatelessWidget {
-  const TransactionTile({super.key});
+  const TransactionTile({
+    super.key,
+    required this.transaction,
+  });
+
+  final Transaction transaction;
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +17,7 @@ class TransactionTile extends StatelessWidget {
       children: [
         CircleAvatar(
           child: Text(
-            'Z',
+            '${transaction.beneficiary?.substring(0, 1).toUpperCase()}',
             style: TextStyle(
               fontSize: 14,
             ),
@@ -25,7 +30,7 @@ class TransactionTile extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                'Transfer to Alex',
+                _getTitle(),
                 style: AppTypography.lightTheme.bodyMedium,
               ),
               Text(
@@ -36,12 +41,31 @@ class TransactionTile extends StatelessWidget {
           ),
         ),
         Text(
-          '- AED 20',
+          _getAmount(),
           style: AppTypography.lightTheme.headlineMedium?.copyWith(
-            color: CustomColors.error,
+            color: _getAmountColorByType(),
           ),
         ),
       ],
     );
+  }
+
+  Color _getAmountColorByType() {
+    if (transaction.type == TransactionType.debt) {
+      return CustomColors.error;
+    }
+    return CustomColors.success;
+  }
+
+  String _getTitle() {
+    if (transaction.type == TransactionType.debt) {
+      return 'Transfer to ${transaction.beneficiary}';
+    }
+    return 'Credit In Account';
+  }
+
+  String _getAmount() {
+    String sign = transaction.type == TransactionType.debt ? '-' : '+';
+    return '$sign ${transaction.currency} ${transaction.amount}';
   }
 }
