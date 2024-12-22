@@ -1,6 +1,4 @@
-import 'package:fh_assignment/core/utils/app_colors.dart';
-import 'package:fh_assignment/core/utils/typography.dart';
-import 'package:flutter/material.dart';
+part of 'transaction_list_tile.dart';
 
 class TransactionTile extends StatelessWidget {
   const TransactionTile({super.key});

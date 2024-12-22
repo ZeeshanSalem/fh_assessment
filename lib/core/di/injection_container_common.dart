@@ -71,8 +71,8 @@ Future<void> initDio() async {
     Dio dio = Dio();
 
     BaseOptions baseOptions = BaseOptions(
-      receiveTimeout: const Duration(seconds: 30),
-      connectTimeout: const Duration(seconds: 20),
+      receiveTimeout: const Duration(seconds: 3),
+      connectTimeout: const Duration(seconds: 3),
       headers: {
         HttpHeaders.userAgentHeader: 'dio',
         'api': '1.0,0',
