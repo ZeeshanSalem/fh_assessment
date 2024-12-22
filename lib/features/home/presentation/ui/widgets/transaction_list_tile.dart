@@ -22,6 +22,7 @@ class TransactionListTile extends StatelessWidget {
       int total = state.transactions?.length ?? 0;
       return ListView.separated(
         physics: NeverScrollableScrollPhysics(),
+        reverse: true,
         itemBuilder: (context, index) => TransactionTile(
           transaction: state.transactions![index],
         ),
