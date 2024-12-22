@@ -25,27 +25,83 @@ class BeneficiaryTile extends StatelessWidget {
             height: 40,
             width: 40,
             child: CircleAvatar(
-              child:
-                  Text('${beneficiary.nickName?.substring(0,1).toUpperCase()}'),
+              child: Text(
+                  '${beneficiary.nickName?.substring(0, 1).toUpperCase()}'),
             ),
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            spacing: 02,
-            children: [
-              Text(
-                '${beneficiary.nickName}',
-                style: AppTypography.lightTheme.bodyMedium,
-              ),
-              Text(
-                '${beneficiary.id}',
-                style: AppTypography.lightTheme.titleSmall,
-              ),
-            ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              spacing: 02,
+              children: [
+                Text(
+                  '${beneficiary.nickName}',
+                  style: AppTypography.lightTheme.bodyMedium,
+                ),
+                Text(
+                  '${beneficiary.id}',
+                  style: AppTypography.lightTheme.titleSmall,
+                ),
+              ],
+            ),
+          ),
+          if (isSelected)
+            Icon(
+              Icons.check,
+              size: 24,
+              color: CustomColors.success,
+            ),
+          PopupMenuButton<String>(
+            onSelected: (String value) {
+              if (value == 'edit') {
+                // onEdit(); // Calls the edit callback
+              } else if (value == 'delete') {
+                // onDelete(); // Calls the delete callback
+                showDialog(
+                    context: context,
+                    builder: (dialogContext) {
+                      return ConfirmationDialog(
+                        actionButtonName: 'Delete',
+                        btnColor: CustomColors.error,
+
+                        // showConfirmButton: false,
+                      );
+                    }).then((value) {
+                      if(value == true){
+                        _onDelete(context);
+                      }
+                });
+              }
+            },
+            itemBuilder: (BuildContext context) {
+              return [
+                PopupMenuItem<String>(
+                  value: 'edit',
+                  child: Text(
+                    'Edit',
+                    style: AppTypography.lightTheme.bodyMedium,
+                  ),
+                ),
+                PopupMenuItem<String>(
+                  value: 'delete',
+                  child: Text(
+                    'Delete',
+                    style: AppTypography.lightTheme.bodyMedium?.copyWith(
+                      color: CustomColors.error,
+                    ),
+                  ),
+                ),
+              ];
+            },
           ),
         ],
       ),
     );
+  }
+
+  _onDelete(BuildContext context){
+    context.read<BeneficiaryCubit>().deleteBeneficiary('${beneficiary.id}');
+
   }
 }
