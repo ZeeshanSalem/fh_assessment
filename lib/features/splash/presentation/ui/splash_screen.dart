@@ -1,6 +1,10 @@
-import 'package:fh_assignment/core/routing/routers.dart';
+import 'package:fh_assignment/core/utils/typography.dart';
+import 'package:fh_assignment/features/home/presentation/cubit/home_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../../core/routing/routers.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -16,35 +20,37 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
   }
 
-  _init() async {
-    await Future.delayed(
-      Duration(
-        seconds: 1,
-      ),
-    ).then((value) {
-      context.pushReplacementNamed(
-        Routes.homeRoute,
-      );
-    });
+  _init() {
+    context.read<HomeCubit>().getMyProfile();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            /// todo: add font style.
-            Text(
-              'Finance House',
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            CircularProgressIndicator(),
-          ],
+    return BlocListener<HomeCubit, HomeState>(
+      listener: (context, state) {
+        if (state.status == HomeStatus.success) {
+          context.pushReplacementNamed(
+            Routes.homeRoute,
+          );
+        }
+      },
+      child: Scaffold(
+        body: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              /// todo: add font style.
+              Text(
+                'Finance House',
+                style: AppTypography.lightTheme.titleLarge,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              CircularProgressIndicator(),
+            ],
+          ),
         ),
       ),
     );

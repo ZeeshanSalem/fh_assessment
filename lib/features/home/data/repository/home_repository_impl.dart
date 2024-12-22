@@ -16,7 +16,6 @@ class HomeRepositoryImpl extends HomeRepository {
 
   @override
   Future<Either<Exception, User>> getProfile() async {
-    if (networkInfo.isConnected) {
       try {
         final response = await homeRemoteDataSource.getProfile();
         return Right(
@@ -29,10 +28,6 @@ class HomeRepositoryImpl extends HomeRepository {
           exception,
         );
       }
-    } else {
-      return Left(NoInternetException(
-        message: "No internet connection",
-      ));
     }
-  }
+
 }

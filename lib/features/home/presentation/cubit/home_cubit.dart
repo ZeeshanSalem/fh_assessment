@@ -14,7 +14,9 @@ class HomeCubit extends BaseCubit<HomeState> {
           HomeState(
             status: HomeStatus.initial,
           ),
-        );
+        ) {
+    getMyProfile();
+  }
 
   /// Get My Profile
   Future<void> getMyProfile() async {

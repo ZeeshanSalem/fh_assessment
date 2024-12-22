@@ -22,13 +22,16 @@ class HomeLocalDataSourceImpl extends HomeLocalDataSource {
     try {
       /// Here first time it's will be null at that time will get mock data from
       /// profile.json which is in asset folder
-      String? profileString = preferences.getPreferencesData(Constant.kProfile);
-      if (profileString != null) {
+      String profileString = preferences.getPreferencesData(Constant.kProfile);
+      if (profileString.isNotEmpty) {
         return jsonDecode(profileString) as Map<String, dynamic>;
       } else {
         return _loadJsonData();
       }
-    } catch (e) {
+    } catch (e,s) {
+      print('Exception getProfile $e');
+      print('Exception Stack $s');
+
       throw GeneralException(
         message: 'Failed: $e',
       );
@@ -39,7 +42,6 @@ class HomeLocalDataSourceImpl extends HomeLocalDataSource {
     final String jsonString =
         await rootBundle.loadString('assets/data/profile.json');
 
-    print('jsonString $jsonString');
 
     return jsonDecode(jsonString) as Map<String, dynamic>;
   }

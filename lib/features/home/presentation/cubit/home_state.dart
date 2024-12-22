@@ -6,8 +6,6 @@ enum HomeStatus {
   loading,
   success,
   failure,
-  optionSelection,
-  optionSelected,
 }
 
 class HomeState extends Equatable {

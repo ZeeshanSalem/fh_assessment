@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'app_parent.dart';
 import 'core/di/injection_container_common.dart';
 import 'core/routing/routing.dart';
 import 'core/shared_pref/preference.dart';
@@ -22,12 +23,14 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'App Theme',
-      debugShowCheckedModeBanner: false,
-      routerConfig: routeConfig,
-      theme: AppTheme.lightTheme,
+    return AppGlobalProvider(
+      child: MaterialApp.router(
+        title: 'Finance House',
+        debugShowCheckedModeBanner: false,
+        routerConfig: routeConfig,
+        theme: AppTheme.lightTheme,
 
+      ),
     );
   }
 }
