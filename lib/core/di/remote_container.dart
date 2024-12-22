@@ -7,4 +7,10 @@ Future<void> initRemoteDI() async {
       networkClient: serviceLocator(),
     ),
   );
+
+  serviceLocator.registerLazySingleton<TopUpDataSource>(
+    () => TopUpDataSourceImpl(
+      networkClient: serviceLocator(),
+    ),
+  );
 }

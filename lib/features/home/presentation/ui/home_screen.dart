@@ -11,16 +11,28 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawerEnableOpenDragGesture:true,
+      /// 1. `AppBar` : contain 1. Avatar 2. UserName
       appBar: AppBar(
         leading: Padding(
           padding: const EdgeInsets.only(
             left: 8,
           ),
-          child: CircleAvatar(
-            child: Icon(
-              Icons.person,
-              size: 32,
-            ),
+          child: Builder(
+            builder: (buildContext) {
+              return InkWell(
+                splashColor: Colors.white,
+                onTap: (){
+                  Scaffold.of(buildContext).openDrawer();
+                },
+                child: CircleAvatar(
+                  child: Icon(
+                    Icons.person,
+                    size: 32,
+                  ),
+                ),
+              );
+            }
           ),
         ),
         title: RichText(
@@ -43,6 +55,11 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
         ],
+      ),
+
+      /// 2. Drawer Section.
+      drawer: Drawer(
+        child: HomeDrawer(),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),

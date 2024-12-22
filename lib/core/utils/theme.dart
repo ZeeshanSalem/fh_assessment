@@ -16,16 +16,15 @@ class AppTheme {
           WidgetStateProperty.resolveWith((state) => const EdgeInsets.all(2)),
       elevation: WidgetStateProperty.resolveWith<double>((state) => 1),
       shape: WidgetStateProperty.resolveWith((state) => RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-        side: BorderSide(color: Colors.grey)
-          )),
+          borderRadius: BorderRadius.circular(10),
+          side: BorderSide(color: Colors.grey))),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ButtonStyle(
-        backgroundColor: WidgetStateProperty.all(CustomColors.primary),
-        textStyle: WidgetStateProperty.all(AppTypography.lightTheme.bodyMedium?.copyWith(color: Colors.white))
-      )
-    ),
+        style: ButtonStyle(
+            backgroundColor: WidgetStateProperty.all(CustomColors.primary),
+            textStyle: WidgetStateProperty.all(AppTypography
+                .lightTheme.bodyMedium
+                ?.copyWith(color: Colors.white)))),
     cardTheme: CardTheme(
       surfaceTintColor: CustomColors.lightPurple,
       shape: RoundedRectangleBorder(
