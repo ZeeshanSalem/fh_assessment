@@ -1,11 +1,13 @@
 part of 'beneficiary_cubit.dart';
 
-
 enum BeneficiaryStatus {
   initial,
   loading,
   success,
   failure,
+  crudLoading,
+  crudSuccess,
+  crudFailed,
 }
 
 class BeneficiaryState extends Equatable {
@@ -19,6 +21,18 @@ class BeneficiaryState extends Equatable {
     this.status,
     this.beneficiaries,
   });
+
+  BeneficiaryState copyWith({
+    BeneficiaryStatus? status,
+    ErrorModel? errorModel,
+    List<Beneficiary>? beneficiaries,
+  }) {
+    return BeneficiaryState(
+      status: status ?? this.status,
+      errorModel: errorModel ?? this.errorModel,
+      beneficiaries: beneficiaries ?? this.beneficiaries,
+    );
+  }
 
   factory BeneficiaryState.fromJson(json) {
     return BeneficiaryState(

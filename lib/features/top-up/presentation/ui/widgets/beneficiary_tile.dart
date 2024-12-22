@@ -1,13 +1,14 @@
-import 'package:fh_assignment/core/utils/typography.dart';
-import 'package:flutter/material.dart';
+part of 'beneficiaries_tile.dart';
 
 class BeneficiaryTile extends StatelessWidget {
   const BeneficiaryTile({
     super.key,
     this.isSelected = false,
+    required this.beneficiary,
   });
 
   final bool isSelected;
+  final Beneficiary beneficiary;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,8 @@ class BeneficiaryTile extends StatelessWidget {
             height: 40,
             width: 40,
             child: CircleAvatar(
-              child: Text('Z'),
+              child:
+                  Text('${beneficiary.nickName?.substring(0).toUpperCase()}'),
             ),
           ),
           Column(

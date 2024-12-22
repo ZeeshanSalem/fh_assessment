@@ -1,4 +1,3 @@
-import 'package:fh_assignment/core/utils/app_colors.dart';
 import 'package:fh_assignment/core/utils/typography.dart';
 import 'package:flutter/material.dart';
 import 'widgets/widget.dart';
@@ -32,48 +31,7 @@ class TopUpScreen extends StatelessWidget {
               style: AppTypography.lightTheme.headlineMedium,
             ),
             AmountTile(),
-            Padding(
-              padding: const EdgeInsets.only(top: 10.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Beneficiaries',
-                    style: AppTypography.lightTheme.headlineMedium,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ButtonStyle(
-                      shape: WidgetStateProperty.all(
-                        CircleBorder(),
-                      ),
-                      backgroundColor: WidgetStateProperty.all(
-                          CustomColors.primary
-                      ),
-                      padding: WidgetStateProperty.all(EdgeInsets.all(02)),
-
-                    ),
-
-                    child: Icon(
-                      Icons.add,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            ListView.separated(
-              itemBuilder: (context, index) =>
-                  BeneficiaryTile(
-                    isSelected: index == 0,
-                  ),
-              separatorBuilder: (context, index) =>
-                  Divider(
-                    color: Colors.grey,
-                  ),
-              itemCount: 5,
-              shrinkWrap: true,
-            ),
+            BeneficiariesTile(),
           ],
         ),
       ),
