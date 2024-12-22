@@ -55,9 +55,15 @@ class BeneficiaryTile extends StatelessWidget {
           PopupMenuButton<String>(
             onSelected: (String value) {
               if (value == 'edit') {
-                // onEdit(); // Calls the edit callback
+                showDialog(
+                  context: context,
+                  builder: (dialogContext) => BlocProvider.value(
+                    value: context.read<BeneficiaryCubit>(),
+                    child: AddBeneficiaryDialog(beneficiary: beneficiary,),
+                  ),
+                );
+
               } else if (value == 'delete') {
-                // onDelete(); // Calls the delete callback
                 showDialog(
                     context: context,
                     builder: (dialogContext) {

@@ -1,9 +1,9 @@
 import 'package:fh_assignment/core/common_widgets/common_widget.dart';
-import 'package:fh_assignment/core/common_widgets/custom_snack_bar.dart';
 import 'package:fh_assignment/core/utils/app_colors.dart';
 import 'package:fh_assignment/core/utils/typography.dart';
 import 'package:fh_assignment/features/top-up/data/models/beneficiary.dart';
 import 'package:fh_assignment/features/top-up/presentation/cubit/beneficiary/beneficiary_cubit.dart';
+import 'package:fh_assignment/features/top-up/presentation/ui/widgets/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

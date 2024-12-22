@@ -8,7 +8,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class AddBeneficiaryDialog extends StatefulWidget {
   const AddBeneficiaryDialog({
     super.key,
+    this.beneficiary,
   });
+
+  /// when there is beneficiary it consider is edit. at that used can only
+  /// change nickname.
+  final Beneficiary? beneficiary;
 
   @override
   State<AddBeneficiaryDialog> createState() => _AddBeneficiaryDialogState();
@@ -16,8 +21,26 @@ class AddBeneficiaryDialog extends StatefulWidget {
 
 class _AddBeneficiaryDialogState extends State<AddBeneficiaryDialog> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _nicknameController = TextEditingController();
+  TextEditingController _phoneController = TextEditingController();
+  TextEditingController _nicknameController = TextEditingController();
+  bool _isEdit = false;
+
+  @override
+  void initState() {
+    _checkIsEdit();
+    super.initState();
+  }
+
+  _checkIsEdit() {
+    _isEdit = widget.beneficiary != null;
+    if (_isEdit) {
+      _phoneController =
+          TextEditingController(text: '${widget.beneficiary?.id}');
+      _nicknameController =
+          TextEditingController(text: '${widget.beneficiary?.nickName}');
+    }
+    setState(() {});
+  }
 
   @override
   void dispose() {
@@ -28,12 +51,21 @@ class _AddBeneficiaryDialogState extends State<AddBeneficiaryDialog> {
 
   void _submit() {
     if (_formKey.currentState!.validate()) {
-      context.read<BeneficiaryCubit>().addBeneficiary(
-            Beneficiary(
-              id: "+971${_phoneController.text}",
-              nickName: _nicknameController.text,
-            ),
-          );
+      if (_isEdit) {
+        context.read<BeneficiaryCubit>().updateBeneficiary(
+              Beneficiary(
+                id: _phoneController.text,
+                nickName: _nicknameController.text,
+              ),
+            );
+      } else {
+        context.read<BeneficiaryCubit>().addBeneficiary(
+              Beneficiary(
+                id: "+971${_phoneController.text}",
+                nickName: _nicknameController.text,
+              ),
+            );
+      }
 
       Navigator.of(context).pop();
     }
@@ -55,7 +87,7 @@ class _AddBeneficiaryDialogState extends State<AddBeneficiaryDialog> {
             spacing: 16,
             children: [
               Text(
-                "Add Beneficiary",
+                "${_isEdit ? 'Edit' : 'Add'} Beneficiary",
                 style: AppTypography.lightTheme.titleMedium,
               ),
 
@@ -63,21 +95,25 @@ class _AddBeneficiaryDialogState extends State<AddBeneficiaryDialog> {
               TextFormField(
                 controller: _phoneController,
                 keyboardType: TextInputType.number,
+                readOnly: _isEdit,
                 maxLength: 9,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "Phone number is required";
-                  }
-                  if (value.length != 9) {
-                    return "Phone number must be 9 digits";
-                  }
-                  if (!RegExp(r'^\d+$').hasMatch(value)) {
-                    return "Phone number must be numeric";
-                  }
-                  return null;
-                },
+                // @Dev In Edit case it will be always disable
+                validator: _isEdit
+                    ? null
+                    : (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Phone number is required";
+                        }
+                        if (value.length != 9) {
+                          return "Phone number must be 9 digits";
+                        }
+                        if (!RegExp(r'^\d+$').hasMatch(value)) {
+                          return "Phone number must be numeric";
+                        }
+                        return null;
+                      },
                 decoration: InputDecoration(
-                  prefixText: "+971 ",
+                  prefixText: _isEdit ? null : "+971 ",
                   labelText: "Phone Number",
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -124,7 +160,7 @@ class _AddBeneficiaryDialogState extends State<AddBeneficiaryDialog> {
                   ElevatedButton(
                     onPressed: _submit,
                     child: Text(
-                      "Add",
+                      _isEdit ? "Edit" : "Add",
                       style: AppTypography.lightTheme.bodyMedium
                           ?.copyWith(color: Colors.white),
                     ),
