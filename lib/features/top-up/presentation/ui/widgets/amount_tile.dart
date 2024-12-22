@@ -10,6 +10,9 @@ class AmountTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TopUpCubit, TopUpState>(
+      buildWhen: (context, state) =>
+          state.status == TopUpStatus.optionSelection ||
+          state.status == TopUpStatus.optionSelected,
       builder: (context, state) {
         final topUpCubit = context.read<TopUpCubit>();
         return Wrap(
@@ -31,10 +34,10 @@ class AmountTile extends StatelessWidget {
                   state.selectedAmount == topUpCubit.rechargeableAmounts[index],
               onSelected: (value) {
                 if (value) {
-                  topUpCubit.selectAmountForRecharge(
-                      topUpCubit.rechargeableAmounts[index]);
+                  topUpCubit
+                      .onAmountSelection(topUpCubit.rechargeableAmounts[index]);
                 } else {
-                  topUpCubit.selectAmountForRecharge(null);
+                  topUpCubit.onAmountSelection(null);
                 }
               },
             ),

@@ -3,6 +3,7 @@ import 'package:fh_assignment/core/utils/app_colors.dart';
 import 'package:fh_assignment/core/utils/typography.dart';
 import 'package:fh_assignment/features/top-up/data/models/beneficiary.dart';
 import 'package:fh_assignment/features/top-up/presentation/cubit/beneficiary/beneficiary_cubit.dart';
+import 'package:fh_assignment/features/top-up/presentation/cubit/top_up_cubit.dart';
 import 'package:fh_assignment/features/top-up/presentation/ui/widgets/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,37 +15,58 @@ class BeneficiariesTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<BeneficiaryCubit, BeneficiaryState>(
-      builder: (context, state) {
-        if (state.status == BeneficiaryStatus.loading) {
-          return ShimmerLoadingTile();
-        }
-        return ListView.separated(
-          physics: NeverScrollableScrollPhysics(),
-          itemBuilder: (context, index) => BeneficiaryTile(
-            isSelected: index == 0,
-            beneficiary: state.beneficiaries![index],
-          ),
-          separatorBuilder: (context, index) => Divider(
-            color: Colors.grey,
-          ),
-          itemCount: state.beneficiaries?.length ?? 0,
-          shrinkWrap: true,
-        );
-      },
-      listener: (context, state) {
-        if (state.status == BeneficiaryStatus.crudFailed) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              backgroundColor: CustomColors.error,
-              content: Text(
-                '${state.errorModel?.message}',
-                style: AppTypography.lightTheme.titleMedium
-                    ?.copyWith(color: Colors.white),
+    return BlocBuilder<TopUpCubit, TopUpState>(
+      buildWhen: (context, topUpState) =>
+          topUpState.status == TopUpStatus.optionSelection ||
+          topUpState.status == TopUpStatus.optionSelected,
+      builder: (context, topUpState) {
+        return BlocConsumer<BeneficiaryCubit, BeneficiaryState>(
+          builder: (context, state) {
+            if (state.status == BeneficiaryStatus.loading) {
+              return ShimmerLoadingTile();
+            }
+            return ListView.separated(
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) => InkWell(
+                splashColor: Colors.white,
+                onTap: () {
+                  if (topUpState.selectedBeneficiary?.id ==
+                      state.beneficiaries![index].id) {
+                    context.read<TopUpCubit>().onBeneficiarySelection(
+                          null,
+                        );
+                  } else {
+                    context.read<TopUpCubit>().onBeneficiarySelection(
+                          state.beneficiaries![index],
+                        );
+                  }
+                },
+                child: BeneficiaryTile(
+                  isSelected: topUpState.selectedBeneficiary?.id ==
+                      state.beneficiaries![index].id,
+                  beneficiary: state.beneficiaries![index],
+                ),
               ),
-            ),
-          );
-        }
+              separatorBuilder: (context, index) => Divider(
+                color: Colors.grey,
+              ),
+              itemCount: state.beneficiaries?.length ?? 0,
+              shrinkWrap: true,
+            );
+          },
+          listener: (context, state) {
+            if (state.status == BeneficiaryStatus.crudFailed) {
+              ScaffoldMessenger.of(context).showSnackBar(
+
+                customSnackBar(
+                  status: SnackBarStatusEnum.failure,
+                  context: context,
+                  msg: '${state.errorModel?.message}',
+                ),
+              );
+            }
+          },
+        );
       },
     );
   }

@@ -59,10 +59,11 @@ class BeneficiaryTile extends StatelessWidget {
                   context: context,
                   builder: (dialogContext) => BlocProvider.value(
                     value: context.read<BeneficiaryCubit>(),
-                    child: AddBeneficiaryDialog(beneficiary: beneficiary,),
+                    child: AddBeneficiaryDialog(
+                      beneficiary: beneficiary,
+                    ),
                   ),
                 );
-
               } else if (value == 'delete') {
                 showDialog(
                     context: context,
@@ -74,10 +75,9 @@ class BeneficiaryTile extends StatelessWidget {
                         // showConfirmButton: false,
                       );
                     }).then((value) {
-                      if(value == true){
-
-                        _onDelete(context);
-                      }
+                  if (value == true) {
+                    _onDelete(context);
+                  }
                 });
               }
             },
@@ -107,9 +107,19 @@ class BeneficiaryTile extends StatelessWidget {
     );
   }
 
-  _onDelete(BuildContext context){
+  _onDelete(BuildContext context) {
+    if (context.read<TopUpCubit>().state.selectedBeneficiary?.id ==
+        beneficiary.id) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        customSnackBar(
+          status: SnackBarStatusEnum.warning,
+          context: context,
+          msg: 'You Cannot delete selected Beneficiary',
+        ),
+      );
+      return;
+    }
+
     context.read<BeneficiaryCubit>().deleteBeneficiary('${beneficiary.id}');
-
-
   }
 }

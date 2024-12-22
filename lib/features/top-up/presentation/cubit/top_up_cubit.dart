@@ -29,19 +29,36 @@ class TopUpCubit extends BaseCubit<TopUpState> {
     'AED 100',
   ];
 
-  selectAmountForRecharge(String? amount) {
+  onAmountSelection(String? amount) {
     emit(
       state.copyWith(
-        status: TopUpStatus.loading,
+        status: TopUpStatus.optionSelection,
         selectedAmount: null,
+        selectedBeneficiary: state.selectedBeneficiary,
       ),
     );
     emit(
       state.copyWith(
-        status: TopUpStatus.success,
-        selectedAmount: amount,
+          status: TopUpStatus.optionSelected,
+          selectedAmount: amount,
+          selectedBeneficiary: state.selectedBeneficiary),
+    );
+  }
+
+  onBeneficiarySelection(Beneficiary? beneficiary) {
+    emit(
+      state.copyWith(
+        status: TopUpStatus.optionSelection,
+        selectedAmount: state.selectedAmount,
+        selectedBeneficiary: null,
       ),
     );
-
+    emit(
+      state.copyWith(
+        status: TopUpStatus.optionSelected,
+        selectedAmount: state.selectedAmount,
+        selectedBeneficiary: beneficiary
+      ),
+    );
   }
 }

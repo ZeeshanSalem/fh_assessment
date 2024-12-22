@@ -3,6 +3,7 @@ import 'package:fh_assignment/core/utils/constants.dart';
 import 'package:fh_assignment/core/utils/typography.dart';
 import 'package:fh_assignment/features/top-up/data/models/beneficiary.dart';
 import 'package:fh_assignment/features/top-up/presentation/cubit/beneficiary/beneficiary_cubit.dart';
+import 'package:fh_assignment/features/top-up/presentation/cubit/top_up_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'widgets/widget.dart';
@@ -38,49 +39,69 @@ class TopUpScreen extends StatelessWidget {
             AmountTile(),
             BlocBuilder<BeneficiaryCubit, BeneficiaryState>(
                 builder: (context, state) {
-              return Padding(
-                padding: const EdgeInsets.only(top: 10.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Beneficiaries',
-                      style: AppTypography.lightTheme.headlineMedium,
-                    ),
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Beneficiaries',
+                          style: AppTypography.lightTheme.headlineMedium,
+                        ),
 
-                    // @Dev : if beneficiaries greater than total user will be able to add beneficiary.
-                    ((state.beneficiaries ?? []).length) >
+                        // @Dev : if beneficiaries greater than total user will be able to add beneficiary.
+                        ((state.beneficiaries ?? []).length) >
                             Constant.maxAllowBeneficiaries
-                        ? const SizedBox()
-                        : ElevatedButton(
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (dialogContext) => BlocProvider.value(
-                                  value: context.read<BeneficiaryCubit>(),
-                                  child: AddBeneficiaryDialog(),
-                                ),
-                              );
-                            },
-                            style: ButtonStyle(
-                              shape: WidgetStateProperty.all(
-                                CircleBorder(),
-                              ),
-                              backgroundColor:
-                                  WidgetStateProperty.all(CustomColors.primary),
-                              padding:
-                                  WidgetStateProperty.all(EdgeInsets.all(02)),
+                            ? const SizedBox()
+                            : ElevatedButton(
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (dialogContext) =>
+                                  BlocProvider.value(
+                                    value: context.read<BeneficiaryCubit>(),
+                                    child: AddBeneficiaryDialog(),
+                                  ),
+                            );
+                          },
+                          style: ButtonStyle(
+                            shape: WidgetStateProperty.all(
+                              CircleBorder(),
                             ),
-                            child: Icon(
-                              Icons.add,
-                              color: Colors.white,
-                            ),
+                            backgroundColor:
+                            WidgetStateProperty.all(CustomColors.primary),
+                            padding:
+                            WidgetStateProperty.all(EdgeInsets.all(02)),
                           ),
-                  ],
-                ),
-              );
-            }),
+                          child: Icon(
+                            Icons.add,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }),
             BeneficiariesTile(),
+
+            BlocBuilder<TopUpCubit, TopUpState>(
+              builder: (context, state) {
+                if(state.selectedAmount == null || state.selectedBeneficiary == null) {
+                  return const SizedBox();
+                }
+                return Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20),
+                  child: SizedBox(
+                    width: double.maxFinite,
+                    child: ElevatedButton(onPressed: () {},
+                        child: Text('Pay',
+                          style: AppTypography.lightTheme.titleMedium?.copyWith(
+                            color: Colors.white,
+                          ),)),
+                  ),
+                );
+              },
+            ),
           ],
         ),
       ),

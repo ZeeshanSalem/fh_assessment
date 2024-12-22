@@ -5,6 +5,8 @@ enum TopUpStatus {
   loading,
   success,
   failure,
+  optionSelection,
+  optionSelected,
 }
 
 class TopUpState extends Equatable {
@@ -36,7 +38,7 @@ class TopUpState extends Equatable {
       status: status ?? this.status,
       errorModel: errorModel ?? this.errorModel,
       selectedAmount: selectedAmount,
-      selectedBeneficiary: selectedBeneficiary ?? this.selectedBeneficiary,
+      selectedBeneficiary: selectedBeneficiary,
     );
   }
 
