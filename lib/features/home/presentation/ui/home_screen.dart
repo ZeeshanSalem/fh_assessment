@@ -1,5 +1,4 @@
 import 'package:fh_assignment/core/routing/routers.dart';
-import 'package:fh_assignment/core/utils/app_colors.dart';
 import 'package:fh_assignment/core/utils/typography.dart';
 import 'package:fh_assignment/features/home/presentation/cubit/home_cubit.dart';
 import 'package:fh_assignment/features/home/presentation/ui/widgets/widget.dart';

@@ -13,7 +13,9 @@ class TransactionCubit extends BaseCubit<TransactionState> {
     required this.homeRepository,
   }) : super(TransactionState(
           status: TransactionStatus.initial,
-        ));
+        )){
+    getTransactions();
+  }
 
   Future<void> getTransactions() async {
     try {
