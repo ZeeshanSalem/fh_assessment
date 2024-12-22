@@ -49,6 +49,7 @@ dependencies:
   equatable: ^2.0.5
   mocktail: ^1.0.3
   shimmer: ^3.0.0
+  intl: ^0.20.1
 
 dev_dependencies:
   flutter_test:

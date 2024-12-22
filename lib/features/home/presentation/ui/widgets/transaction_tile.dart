@@ -34,7 +34,7 @@ class TransactionTile extends StatelessWidget {
                 style: AppTypography.lightTheme.bodyMedium,
               ),
               Text(
-                '27, May 2024 04:38 PM',
+                Utils.getTransactionTime('${transaction.createdAt}'),
                 style: AppTypography.lightTheme.bodySmall,
               ),
             ],

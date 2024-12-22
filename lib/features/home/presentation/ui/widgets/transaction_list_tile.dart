@@ -1,5 +1,6 @@
 import 'package:fh_assignment/core/common_widgets/common_widget.dart';
 import 'package:fh_assignment/core/utils/enums.dart';
+import 'package:fh_assignment/core/utils/utils.dart';
 import 'package:fh_assignment/features/home/data/model/transaction.dart';
 import 'package:fh_assignment/features/home/presentation/cubit/transaction/transaction_cubit.dart';
 import 'package:flutter/material.dart';
@@ -19,9 +20,18 @@ class TransactionListTile extends StatelessWidget {
       if (state.status == TransactionStatus.loading) {
         return ShimmerLoadingTile();
       }
+
+      if (state.status == TransactionStatus.failure) {
+        return FailureWidget(onPressed: (){
+          context.read<TransactionCubit>().getTransactions();
+        });
+      }
+
+
       int total = state.transactions?.length ?? 0;
       return ListView.separated(
         physics: NeverScrollableScrollPhysics(),
+        padding: EdgeInsets.symmetric(vertical: 10),
         reverse: true,
         itemBuilder: (context, index) => TransactionTile(
           transaction: state.transactions![index],

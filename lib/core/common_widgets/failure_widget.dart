@@ -22,14 +22,11 @@ class FailureWidget extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
+        spacing: 10,
         children: [
           const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Text(
-              //   "Oops",
-              //   style: CustomTypography.h1EerieBlack,
-              // ),
               Icon(
                 Icons.warning,
                 color: CustomColors.error,
@@ -42,11 +39,11 @@ class FailureWidget extends StatelessWidget {
             style: Theme.of(context).textTheme.bodyMedium,
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 10),
           OutlinedButton(
             onPressed: onPressed,
             style: OutlinedButton.styleFrom(
                 backgroundColor: CustomColors.error,
+
             ),
             child: Text(
               buttonName,

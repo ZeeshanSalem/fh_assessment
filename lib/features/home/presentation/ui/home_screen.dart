@@ -107,9 +107,12 @@ class HomeScreen extends StatelessWidget {
               ),
 
               ///  Transaction.
-              Text(
-                'Transaction',
-                style: AppTypography.lightTheme.titleMedium,
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Text(
+                  'Transaction',
+                  style: AppTypography.lightTheme.titleMedium,
+                ),
               ),
 
               TransactionListTile(),
