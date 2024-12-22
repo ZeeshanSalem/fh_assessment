@@ -69,6 +69,7 @@ class BeneficiaryTile extends StatelessWidget {
                       );
                     }).then((value) {
                       if(value == true){
+
                         _onDelete(context);
                       }
                 });
@@ -102,6 +103,7 @@ class BeneficiaryTile extends StatelessWidget {
 
   _onDelete(BuildContext context){
     context.read<BeneficiaryCubit>().deleteBeneficiary('${beneficiary.id}');
+
 
   }
 }

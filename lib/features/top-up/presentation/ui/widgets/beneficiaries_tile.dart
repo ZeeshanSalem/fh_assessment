@@ -1,4 +1,5 @@
 import 'package:fh_assignment/core/common_widgets/common_widget.dart';
+import 'package:fh_assignment/core/common_widgets/custom_snack_bar.dart';
 import 'package:fh_assignment/core/utils/app_colors.dart';
 import 'package:fh_assignment/core/utils/typography.dart';
 import 'package:fh_assignment/features/top-up/data/models/beneficiary.dart';
@@ -31,7 +32,20 @@ class BeneficiariesTile extends StatelessWidget {
           shrinkWrap: true,
         );
       },
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state.status == BeneficiaryStatus.crudFailed) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: CustomColors.error,
+              content: Text(
+                '${state.errorModel?.message}',
+                style: AppTypography.lightTheme.titleMedium
+                    ?.copyWith(color: Colors.white),
+              ),
+            ),
+          );
+        }
+      },
     );
   }
 }

@@ -52,6 +52,17 @@ class BeneficiaryCubit extends BaseCubit<BeneficiaryState> {
   Future<void> addBeneficiary(Beneficiary beneficiary) async {
     emit(state.copyWith(status: BeneficiaryStatus.crudLoading));
     try {
+      // Check if a beneficiary with the same ID already exists
+      final isDuplicate = state.beneficiaries?.any((existingBeneficiary) => existingBeneficiary.id == beneficiary.id);
+
+      if (isDuplicate == true) {
+        // Emit failed state if the ID already exists
+        emit(state.copyWith(
+          status: BeneficiaryStatus.crudFailed,
+          errorModel: ErrorModel(message: 'Beneficiary with the same ID already exists'),
+        ));
+        return; // Early return to prevent further processing
+      }
       final result = await beneficiaryRepository.addBeneficiary(beneficiary);
       result.fold(
         (exception) {
