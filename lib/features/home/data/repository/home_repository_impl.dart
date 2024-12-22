@@ -58,4 +58,27 @@ class HomeRepositoryImpl extends HomeRepository {
       return Left(NoInternetException(message: 'No Internet Connection'));
     }
   }
+
+  @override
+  Future<Either<Exception, Transaction>> addTransaction(
+      Transaction transaction) async {
+    if (networkInfo.isConnected) {
+      try {
+        final response = await homeRemoteDataSource.addTransaction(transaction);
+
+        return Right(Transaction.fromJson(response));
+      } on ServerException catch (exception) {
+        return Left(
+          ServerException(
+            dioException: DioException(
+              error: exception.dioException,
+              requestOptions: RequestOptions(),
+            ),
+          ),
+        );
+      }
+    } else {
+      return Left(NoInternetException(message: 'No Internet Connection'));
+    }
+  }
 }

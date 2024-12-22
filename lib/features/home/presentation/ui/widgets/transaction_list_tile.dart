@@ -39,7 +39,7 @@ class TransactionListTile extends StatelessWidget {
         separatorBuilder: (context, index) => Divider(
           color: Colors.grey,
         ),
-        itemCount: total >= 5 ? 5 : 0,
+        itemCount: total >= 6 ? 6 : 0,
         shrinkWrap: true,
       );
     });

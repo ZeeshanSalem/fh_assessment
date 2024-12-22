@@ -7,12 +7,15 @@ import 'package:fh_assignment/core/network/network_client.dart';
 import 'package:fh_assignment/core/network/network_constant.dart';
 import 'package:fh_assignment/core/utils/constants.dart';
 import 'package:fh_assignment/core/utils/preferences_utils.dart';
+import 'package:fh_assignment/features/home/data/model/transaction.dart';
 import 'package:flutter/services.dart';
 
 abstract class HomeLocalDataSource {
   Future<dynamic> getProfile();
+
   Future<dynamic> getTransactions();
 
+  Future<dynamic> addTransaction(Transaction transactionData);
 }
 
 class HomeLocalDataSourceImpl extends HomeLocalDataSource {
@@ -21,11 +24,9 @@ class HomeLocalDataSourceImpl extends HomeLocalDataSource {
 
   HomeLocalDataSourceImpl({required this.networkClient});
 
-
   @override
   Future<dynamic> getTransactions() async {
-    final response =
-    await networkClient.invoke(allTransaction, RequestType.get);
+    final response = await networkClient.invoke(transaction, RequestType.get);
     if (response.statusCode == 200) {
       return response.data;
     } else {
@@ -53,6 +54,26 @@ class HomeLocalDataSourceImpl extends HomeLocalDataSource {
     } catch (e, s) {
       throw GeneralException(
         message: 'Failed: $e',
+      );
+    }
+  }
+
+  @override
+  Future<dynamic> addTransaction(Transaction transactionData) async {
+    final response = await networkClient.invoke(
+      transaction,
+      RequestType.post,
+      requestBody: transactionData.toJson(),
+    );
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return response.data;
+    } else {
+      throw ServerException(
+        dioException: DioException(
+          requestOptions: response.requestOptions,
+          error: response,
+          type: DioExceptionType.badResponse,
+        ),
       );
     }
   }

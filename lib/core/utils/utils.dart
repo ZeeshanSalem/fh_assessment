@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:intl/intl.dart';
 
 class Utils {
@@ -9,9 +11,17 @@ class Utils {
 
       return formattedDate;
     }
-
     return '';
+  }
 
+  static String generateTransactionID() {
+    // Get current timestamp
+    String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
 
+    // Generate a random number
+    String randomNumber = Random().nextInt(100000).toString().padLeft(5, '0');
+
+    // Combine timestamp and random number
+    return '$timestamp-$randomNumber';
   }
 }

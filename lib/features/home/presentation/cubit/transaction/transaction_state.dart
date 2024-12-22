@@ -5,6 +5,9 @@ enum TransactionStatus {
   loading,
   success,
   failure,
+  addingTransaction,
+  transactionAdded,
+  transactionFailed,
 }
 
 class TransactionState extends Equatable {

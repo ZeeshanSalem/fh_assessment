@@ -46,4 +46,44 @@ class TransactionCubit extends BaseCubit<TransactionState> {
       ));
     }
   }
+
+
+  Future<void> addTransaction(Transaction transaction) async {
+    try {
+      emit(state.copyWith(
+        status: TransactionStatus.addingTransaction,
+      ));
+
+
+
+
+      final response = await homeRepository.addTransaction(transaction);
+
+      response.fold((l) {
+        emit(
+          state.copyWith(
+            status: TransactionStatus.transactionFailed,
+            errorModel: handleException(l),
+          ),
+        );
+      }, (r) {
+        List<Transaction> transaction = List.from(state.transactions ?? []);
+
+        transaction.add(r);
+        emit(state.copyWith(
+          status: TransactionStatus.transactionAdded,
+          transactions: transaction,
+        ));
+      });
+    } catch (e, s) {
+      emit(state.copyWith(
+        status: TransactionStatus.transactionFailed,
+        errorModel: ErrorModel(
+          message: 'Exception $e',
+        ),
+      ));
+    }
+  }
+
+
 }

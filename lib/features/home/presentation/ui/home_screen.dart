@@ -56,7 +56,9 @@ class HomeScreen extends StatelessWidget {
           ),
           actions: [
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                // todo: Implementation
+              },
               icon: Icon(
                 Icons.notifications_none_outlined,
                 size: 32,
