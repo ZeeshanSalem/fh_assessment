@@ -1,6 +1,7 @@
 import 'package:fh_assignment/core/utils/app_colors.dart';
 import 'package:fh_assignment/core/utils/constants.dart';
 import 'package:fh_assignment/core/utils/typography.dart';
+import 'package:fh_assignment/features/top-up/data/models/beneficiary.dart';
 import 'package:fh_assignment/features/top-up/presentation/cubit/beneficiary/beneficiary_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -55,15 +56,11 @@ class TopUpScreen extends StatelessWidget {
                             onPressed: () {
                               showDialog(
                                 context: context,
-                                builder: (context) => AddBeneficiaryDialog(
-                                  onAddBeneficiary: (phoneNumber, nickname) {
-                                    // Handle the added beneficiary
-                                    print("Phone Number: $phoneNumber");
-                                    print("Nickname: $nickname");
-                                  },
+                                builder: (dialogContext) => BlocProvider.value(
+                                  value: context.read<BeneficiaryCubit>(),
+                                  child: AddBeneficiaryDialog(),
                                 ),
                               );
-
                             },
                             style: ButtonStyle(
                               shape: WidgetStateProperty.all(

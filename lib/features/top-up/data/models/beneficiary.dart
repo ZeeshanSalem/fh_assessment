@@ -1,5 +1,5 @@
 class Beneficiary {
-  /// id[String]: Can be phone number for topUp
+  /// id[String]: A uniques Phone Number be used as a ID.
   String? id;
 
   /// nickName[String]: Name for representing number holder.

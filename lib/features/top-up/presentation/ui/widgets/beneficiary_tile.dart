@@ -26,7 +26,7 @@ class BeneficiaryTile extends StatelessWidget {
             width: 40,
             child: CircleAvatar(
               child:
-                  Text('${beneficiary.nickName?.substring(0).toUpperCase()}'),
+                  Text('${beneficiary.nickName?.substring(0,1).toUpperCase()}'),
             ),
           ),
           Column(
@@ -35,11 +35,11 @@ class BeneficiaryTile extends StatelessWidget {
             spacing: 02,
             children: [
               Text(
-                'Zeeshan Saleem',
+                '${beneficiary.nickName}',
                 style: AppTypography.lightTheme.bodyMedium,
               ),
               Text(
-                '+971-524691686',
+                '${beneficiary.id}',
                 style: AppTypography.lightTheme.titleSmall,
               ),
             ],

@@ -1,11 +1,14 @@
 import 'package:fh_assignment/core/utils/app_colors.dart';
 import 'package:fh_assignment/core/utils/typography.dart';
+import 'package:fh_assignment/features/top-up/data/models/beneficiary.dart';
+import 'package:fh_assignment/features/top-up/presentation/cubit/beneficiary/beneficiary_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddBeneficiaryDialog extends StatefulWidget {
-  final Function(String phoneNumber, String nickname) onAddBeneficiary;
-
-  const AddBeneficiaryDialog({super.key, required this.onAddBeneficiary});
+  const AddBeneficiaryDialog({
+    super.key,
+  });
 
   @override
   State<AddBeneficiaryDialog> createState() => _AddBeneficiaryDialogState();
@@ -25,10 +28,13 @@ class _AddBeneficiaryDialogState extends State<AddBeneficiaryDialog> {
 
   void _submit() {
     if (_formKey.currentState!.validate()) {
-      widget.onAddBeneficiary(
-        "+971${_phoneController.text}",
-        _nicknameController.text,
-      );
+      context.read<BeneficiaryCubit>().addBeneficiary(
+            Beneficiary(
+              id: "+971${_phoneController.text}",
+              nickName: _nicknameController.text,
+            ),
+          );
+
       Navigator.of(context).pop();
     }
   }
