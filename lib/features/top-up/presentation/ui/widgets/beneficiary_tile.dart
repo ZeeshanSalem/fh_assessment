@@ -21,6 +21,7 @@ class BeneficiaryTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         spacing: 10,
         children: [
+          /// 1. Circle Avatar of beneficiary
           SizedBox(
             height: 40,
             width: 40,
@@ -29,6 +30,8 @@ class BeneficiaryTile extends StatelessWidget {
                   '${beneficiary.nickName?.substring(0, 1).toUpperCase()}'),
             ),
           ),
+
+          /// 2. Contain name and id`PhoneNumber` of beneficiary
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,12 +49,16 @@ class BeneficiaryTile extends StatelessWidget {
               ],
             ),
           ),
+
+          /// 3. Selected Beneficiary Check.
           if (isSelected)
             Icon(
               Icons.check,
               size: 24,
               color: CustomColors.success,
             ),
+
+          /// 4. Crud Action Buttons.
           PopupMenuButton<String>(
             onSelected: (String value) {
               if (value == 'edit') {

@@ -20,53 +20,62 @@ class BeneficiariesTile extends StatelessWidget {
           topUpState.status == TopUpStatus.optionSelection ||
           topUpState.status == TopUpStatus.optionSelected,
       builder: (context, topUpState) {
-        return BlocConsumer<BeneficiaryCubit, BeneficiaryState>(
-          builder: (context, state) {
-            if (state.status == BeneficiaryStatus.loading) {
-              return ShimmerLoadingTile();
-            }
-            return ListView.separated(
-              physics: NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) => InkWell(
-                splashColor: Colors.white,
-                onTap: () {
-                  if (topUpState.selectedBeneficiary?.id ==
-                      state.beneficiaries![index].id) {
-                    context.read<TopUpCubit>().onBeneficiarySelection(
-                          null,
-                        );
-                  } else {
-                    context.read<TopUpCubit>().onBeneficiarySelection(
-                          state.beneficiaries![index],
-                        );
-                  }
-                },
-                child: BeneficiaryTile(
-                  isSelected: topUpState.selectedBeneficiary?.id ==
-                      state.beneficiaries![index].id,
-                  beneficiary: state.beneficiaries![index],
-                ),
-              ),
-              separatorBuilder: (context, index) => Divider(
-                color: Colors.grey,
-              ),
-              itemCount: state.beneficiaries?.length ?? 0,
-              shrinkWrap: true,
-            );
-          },
-          listener: (context, state) {
-            if (state.status == BeneficiaryStatus.crudFailed) {
-              ScaffoldMessenger.of(context).showSnackBar(
+        return _buildBeneficiaryList(topUpState);
+      },
+    );
+  }
 
-                customSnackBar(
-                  status: SnackBarStatusEnum.failure,
-                  context: context,
-                  msg: '${state.errorModel?.message}',
-                ),
-              );
-            }
-          },
+  ///
+  /// 1. List View for Beneficiaries
+  ///
+  BlocConsumer<BeneficiaryCubit, BeneficiaryState> _buildBeneficiaryList(
+      TopUpState topUpState) {
+    return BlocConsumer<BeneficiaryCubit, BeneficiaryState>(
+      builder: (context, state) {
+        if (state.status == BeneficiaryStatus.loading) {
+          return ShimmerLoadingTile();
+        }
+        return ListView.separated(
+          physics: NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index) => InkWell(
+            splashColor: Colors.white,
+            onTap: () {
+              // toggle beneficiary selection.
+              if (topUpState.selectedBeneficiary?.id ==
+                  state.beneficiaries![index].id) {
+                context.read<TopUpCubit>().onBeneficiarySelection(
+                      null,
+                    );
+              } else {
+                context.read<TopUpCubit>().onBeneficiarySelection(
+                      state.beneficiaries![index],
+                    );
+              }
+            },
+            child: BeneficiaryTile(
+              isSelected: topUpState.selectedBeneficiary?.id ==
+                  state.beneficiaries![index].id,
+              beneficiary: state.beneficiaries![index],
+            ),
+          ),
+          separatorBuilder: (context, index) => Divider(
+            color: Colors.grey,
+          ),
+          itemCount: state.beneficiaries?.length ?? 0,
+          shrinkWrap: true,
         );
+      },
+      listener: (context, state) {
+        // if curd operation failed here we show a message in snack bar.
+        if (state.status == BeneficiaryStatus.crudFailed) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            customSnackBar(
+              status: SnackBarStatusEnum.failure,
+              context: context,
+              msg: '${state.errorModel?.message}',
+            ),
+          );
+        }
       },
     );
   }
