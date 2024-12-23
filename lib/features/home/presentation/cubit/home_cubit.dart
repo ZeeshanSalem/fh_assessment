@@ -89,16 +89,19 @@ class HomeCubit extends BaseCubit<HomeState> {
       num balance = user.totalBalance ?? 0;
       num chargedAmount = num.tryParse('${transaction?.amount}') ?? 0;
 
+      print(" state.user?.id${state.user?.id} == transaction?.id${transaction?.accountNumber}");
+
       // here it's mean we add credit in our own account.
-      if (state.user?.id == transaction?.id &&
+      if (state.user?.id == transaction?.accountNumber &&
           transaction?.type == TransactionType.credit) {
+
         num totalBalance = balance + chargedAmount;
         user.totalBalance = totalBalance;
       }
 
       // it's mean this transaction happened on topUp screen for beneficiary.
       // Here will also do deduction of transaction fee
-      if (state.user?.id != transaction?.id &&
+      if (state.user?.id != transaction?.accountNumber &&
           transaction?.type == TransactionType.debt) {
         num totalBalance = balance - (chargedAmount + Constant.transactionFee);
         user.totalBalance = totalBalance;
