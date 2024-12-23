@@ -4,6 +4,7 @@ import 'package:fh_assignment/core/utils/constants.dart';
 import 'package:fh_assignment/core/utils/enums.dart';
 import 'package:fh_assignment/core/utils/typography.dart';
 import 'package:fh_assignment/features/home/data/model/transaction.dart';
+import 'package:fh_assignment/features/home/presentation/cubit/home_cubit.dart';
 import 'package:fh_assignment/features/home/presentation/cubit/transaction/transaction_cubit.dart';
 import 'package:fh_assignment/features/top-up/presentation/cubit/beneficiary/beneficiary_cubit.dart';
 import 'package:fh_assignment/features/top-up/presentation/cubit/top_up_cubit.dart';
@@ -99,9 +100,9 @@ class TopUpScreen extends StatelessWidget {
                   //1. First need to update over balance.
 
                   if (state.status == TopUpStatus.success) {
-                    // context
-                    //     .read<HomeCubit>()
-                    //     .updateMyBalance(state.latestTransaction);
+                    context
+                        .read<HomeCubit>()
+                        .updateMyBalance(state.latestTransaction);
 
                     context.read<TransactionCubit>().addLocal(state.latestTransaction);
 

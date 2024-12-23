@@ -19,42 +19,45 @@ final GoRouter routeConfig = GoRouter(
       builder: (context, state) {
         return const SplashScreen();
       },
-      routes: [
-        GoRoute(
-            name: Routes.homeRoute,
-            path: Routes.homeRoute,
-            builder: (context, state) {
-              return BlocProvider<TransactionCubit>(
-                create: (context) => serviceLocator<TransactionCubit>(),
-                child: HomeScreen(),
-              );
-            },
-            routes: [
-              GoRoute(
-                name: '${Routes.homeRoute}/${Routes.topUpRoute}',
-                path: Routes.topUpRoute,
-                builder: (context, state) {
-                  return MultiBlocProvider(
-                    providers: [
-                      BlocProvider<TopUpCubit>(
-                        create: (context) => serviceLocator<TopUpCubit>(),
-                      ),
-                      BlocProvider<BeneficiaryCubit>(
-                        create: (context) => serviceLocator<BeneficiaryCubit>(),
-                      ),
 
-                      BlocProvider<TransactionCubit>.value(
-                        value: serviceLocator<TransactionCubit>(),
-                      ),
-                    ],
-                    child: TopUpScreen(),
-                  );
-                },
-              ),
-            ]
-        ),
+      routes: [
+
 
       ],
+    ),
+
+    GoRoute(
+        name: Routes.homeRoute,
+        path: Routes.homeRoute,
+        builder: (context, state) {
+          return BlocProvider<TransactionCubit>(
+            create: (context) => serviceLocator<TransactionCubit>(),
+            child: HomeScreen(),
+          );
+        },
+        routes: [
+          GoRoute(
+            name: '${Routes.homeRoute}/${Routes.topUpRoute}',
+            path: Routes.topUpRoute,
+            builder: (context, state) {
+              return MultiBlocProvider(
+                providers: [
+                  BlocProvider<TopUpCubit>(
+                    create: (context) => serviceLocator<TopUpCubit>(),
+                  ),
+                  BlocProvider<BeneficiaryCubit>(
+                    create: (context) => serviceLocator<BeneficiaryCubit>(),
+                  ),
+
+                  BlocProvider<TransactionCubit>.value(
+                    value: serviceLocator<TransactionCubit>(),
+                  ),
+                ],
+                child: TopUpScreen(),
+              );
+            },
+          ),
+        ]
     ),
   ],
 );
