@@ -24,20 +24,14 @@ class _SplashScreenState extends State<SplashScreen> {
     context.read<HomeCubit>().getMyProfile();
   }
 
-  /*
-  * To Add some delay on splash screen
-  * */
-  Future<bool> _dummy() async {
-    await Future.delayed(Duration(milliseconds: 200));
-    return true;
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocListener<HomeCubit, HomeState>(
       listener: (context, state) async {
         if (state.status == HomeStatus.success) {
-          await Future.delayed(Duration(milliseconds: 400));
+          //To Add some delay on splash screen
+
+          await Future.delayed(Duration(milliseconds: 800));
           if (context.mounted) {
             context.goNamed(
               Routes.homeRoute,
