@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:fh_assignment/core/cubit/base_cubit.dart';
 import 'package:fh_assignment/core/error/model/error_response_model.dart';
+import 'package:fh_assignment/features/home/data/model/transaction.dart';
 import 'package:fh_assignment/features/top-up/data/models/beneficiary.dart';
 import 'package:fh_assignment/features/top-up/domain/repository/top_up_repository.dart';
 
@@ -17,9 +18,7 @@ class TopUpCubit extends BaseCubit<TopUpState> {
           ),
         );
 
-
-
-  onAmountSelection(num? amount) {
+  void onAmountSelection(num? amount) {
     emit(
       state.copyWith(
         status: TopUpStatus.optionSelection,
@@ -35,7 +34,7 @@ class TopUpCubit extends BaseCubit<TopUpState> {
     );
   }
 
-  onBeneficiarySelection(Beneficiary? beneficiary) {
+  void onBeneficiarySelection(Beneficiary? beneficiary) {
     emit(
       state.copyWith(
         status: TopUpStatus.optionSelection,
@@ -49,5 +48,37 @@ class TopUpCubit extends BaseCubit<TopUpState> {
           selectedAmount: state.selectedAmount,
           selectedBeneficiary: beneficiary),
     );
+  }
+
+  Future<void> onTopUp(Transaction transaction) async {
+    try {
+      emit(state.copyWith(
+        status: TopUpStatus.loading,
+      ));
+
+      final response = await topUpRepository.topUp(transaction);
+
+      response.fold((l) {
+        emit(
+          state.copyWith(
+            status: TopUpStatus.failure,
+            errorModel: handleException(l),
+          ),
+        );
+      }, (r) {
+        emit(state.copyWith(
+          status: TopUpStatus.success,
+          latestTransaction: transaction,
+        ));
+      });
+    } catch (e, stackTrace) {
+      logger.e('$e', stackTrace);
+      emit(state.copyWith(
+        status: TopUpStatus.failure,
+        errorModel: ErrorModel(
+          message: 'Exception $e',
+        ),
+      ));
+    }
   }
 }

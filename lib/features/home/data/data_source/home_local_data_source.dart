@@ -26,7 +26,7 @@ class HomeLocalDataSourceImpl extends HomeLocalDataSource {
 
   @override
   Future<dynamic> getTransactions() async {
-    final response = await networkClient.invoke(transaction, RequestType.get);
+    final response = await networkClient.invoke(transactionAPI, RequestType.get);
     if (response.statusCode == 200) {
       return response.data;
     } else {
@@ -61,7 +61,7 @@ class HomeLocalDataSourceImpl extends HomeLocalDataSource {
   @override
   Future<dynamic> addTransaction(Transaction transactionData) async {
     final response = await networkClient.invoke(
-      transaction,
+      transactionAPI,
       RequestType.post,
       requestBody: transactionData.toJson(),
     );

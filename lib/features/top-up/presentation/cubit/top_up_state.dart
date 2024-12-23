@@ -12,6 +12,7 @@ enum TopUpStatus {
 class TopUpState extends Equatable {
   final TopUpStatus? status;
   final ErrorModel? errorModel;
+  final Transaction? latestTransaction;
 
   /// Selected Recharge amount for topUp
   final num? selectedAmount;
@@ -21,22 +22,24 @@ class TopUpState extends Equatable {
   /// 2. id: [Register Phone Number]
   final Beneficiary? selectedBeneficiary;
 
-  const TopUpState({
-    this.errorModel,
-    this.status,
-    this.selectedAmount,
-    this.selectedBeneficiary,
-  });
+  const TopUpState(
+      {this.errorModel,
+      this.status,
+      this.selectedAmount,
+      this.selectedBeneficiary,
+      this.latestTransaction});
 
   TopUpState copyWith({
     TopUpStatus? status,
     ErrorModel? errorModel,
     num? selectedAmount,
     Beneficiary? selectedBeneficiary,
+    Transaction? latestTransaction,
   }) {
     return TopUpState(
       status: status ?? this.status,
       errorModel: errorModel ?? this.errorModel,
+      latestTransaction: latestTransaction ?? this.latestTransaction,
       selectedAmount: selectedAmount,
       selectedBeneficiary: selectedBeneficiary,
     );
@@ -47,6 +50,9 @@ class TopUpState extends Equatable {
       status: TopUpStatus.values[json['status'] ?? 0],
       errorModel: json['errorModel'] != null
           ? ErrorModel.fromJson(json['errorModel'])
+          : null,
+      latestTransaction: json['latestTransaction'] != null
+          ? Transaction.fromJson(json['latestTransaction'])
           : null,
       selectedBeneficiary: json['selectedBeneficiary'] != null
           ? Beneficiary.fromJson(json['selectedBeneficiary'])
@@ -60,6 +66,7 @@ class TopUpState extends Equatable {
         'errorModel': errorModel?.toJson(),
         'selectedBeneficiary': selectedBeneficiary?.toJson(),
         'selectedAmount': selectedAmount,
+        'latestTransaction': latestTransaction?.toJson(),
       };
 
   @override
@@ -68,5 +75,6 @@ class TopUpState extends Equatable {
         status,
         selectedBeneficiary,
         selectedAmount,
+        latestTransaction,
       ];
 }

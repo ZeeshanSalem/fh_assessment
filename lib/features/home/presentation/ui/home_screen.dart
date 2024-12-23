@@ -13,113 +13,110 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<TransactionCubit>(
-      create: (context) => serviceLocator<TransactionCubit>(),
-      child: Scaffold(
-        drawerEnableOpenDragGesture: true,
+    return Scaffold(
+      drawerEnableOpenDragGesture: true,
 
-        /// 1. `AppBar` : contain 1. Avatar 2. UserName
-        appBar: AppBar(
-          leading: Padding(
-            padding: const EdgeInsets.only(
-              left: 8,
+      /// 1. `AppBar` : contain 1. Avatar 2. UserName
+      appBar: AppBar(
+        leading: Padding(
+          padding: const EdgeInsets.only(
+            left: 8,
+          ),
+          child: Builder(builder: (buildContext) {
+            return InkWell(
+              splashColor: Colors.white,
+              onTap: () {
+                Scaffold.of(buildContext).openDrawer();
+              },
+              child: CircleAvatar(
+                child: Icon(
+                  Icons.person,
+                  size: 32,
+                ),
+              ),
+            );
+          }),
+        ),
+        title: BlocBuilder<HomeCubit, HomeState>(
+          builder: (context, state) {
+            return RichText(
+              text: TextSpan(
+                  text: 'Welcome back\n',
+                  style: AppTypography.lightTheme.titleMedium,
+                  children: [
+                    TextSpan(
+                      text: '${state.user?.name}',
+                      style: AppTypography.lightTheme.titleLarge,
+                    ),
+                  ]),
+            );
+          },
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              // todo: Implementation
+            },
+            icon: Icon(
+              Icons.notifications_none_outlined,
+              size: 32,
             ),
-            child: Builder(builder: (buildContext) {
-              return InkWell(
-                splashColor: Colors.white,
-                onTap: () {
-                  Scaffold.of(buildContext).openDrawer();
-                },
-                child: CircleAvatar(
-                  child: Icon(
-                    Icons.person,
-                    size: 32,
+          ),
+        ],
+      ),
+
+      /// 2. Drawer Section.
+      drawer: Drawer(
+        child: HomeDrawer(),
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          spacing: 10,
+          children: [
+            /// Total Balance  tile
+            YourBalanceTile(),
+
+            /// Feature Action Buttons.
+            Text(
+              'Features',
+              style: AppTypography.lightTheme.titleMedium,
+            ),
+            Row(
+              spacing: 10,
+              children: [
+                Expanded(
+                  child: FeatureButton(
+                    btnIcon: Icons.add,
+                    btnName: 'Top Up',
+                    onPress: () {
+                      context.pushNamed('${Routes.homeRoute}/${Routes.topUpRoute}');
+                    },
                   ),
                 ),
-              );
-            }),
-          ),
-          title: BlocBuilder<HomeCubit, HomeState>(
-            builder: (context, state) {
-              return RichText(
-                text: TextSpan(
-                    text: 'Welcome back\n',
-                    style: AppTypography.lightTheme.titleMedium,
-                    children: [
-                      TextSpan(
-                        text: '${state.user?.name}',
-                        style: AppTypography.lightTheme.titleLarge,
-                      ),
-                    ]),
-              );
-            },
-          ),
-          actions: [
-            IconButton(
-              onPressed: () {
-                // todo: Implementation
-              },
-              icon: Icon(
-                Icons.notifications_none_outlined,
-                size: 32,
-              ),
+                Expanded(
+                  child: FeatureButton(
+                    btnIcon: Icons.send,
+                    btnName: 'Transfer',
+                    onPress: () {},
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
 
-        /// 2. Drawer Section.
-        drawer: Drawer(
-          child: HomeDrawer(),
-        ),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            spacing: 10,
-            children: [
-              /// Total Balance  tile
-              YourBalanceTile(),
-
-              /// Feature Action Buttons.
-              Text(
-                'Features',
+            ///  Transaction.
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Text(
+                'Transaction',
                 style: AppTypography.lightTheme.titleMedium,
               ),
-              Row(
-                spacing: 10,
-                children: [
-                  Expanded(
-                    child: FeatureButton(
-                      btnIcon: Icons.add,
-                      btnName: 'Top Up',
-                      onPress: () {
-                        context.pushNamed('${Routes.homeRoute}/${Routes.topUpRoute}');
-                      },
-                    ),
-                  ),
-                  Expanded(
-                    child: FeatureButton(
-                      btnIcon: Icons.send,
-                      btnName: 'Transfer',
-                      onPress: () {},
-                    ),
-                  ),
-                ],
-              ),
+            ),
 
-              ///  Transaction.
-              Padding(
-                padding: const EdgeInsets.only(top: 10),
-                child: Text(
-                  'Transaction',
-                  style: AppTypography.lightTheme.titleMedium,
-                ),
-              ),
-
-              TransactionListTile(),
-            ],
-          ),
+            TransactionListTile(),
+          ],
         ),
       ),
     );
