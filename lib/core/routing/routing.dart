@@ -25,24 +25,27 @@ final GoRouter routeConfig = GoRouter(
           builder: (context, state) {
             return const HomeScreen();
           },
+          routes: [
+            GoRoute(
+              name: '${Routes.homeRoute}/${Routes.topUpRoute}',
+              path: Routes.topUpRoute,
+              builder: (context, state) {
+                return MultiBlocProvider(
+                  providers: [
+                    BlocProvider<TopUpCubit>(
+                      create: (context) => serviceLocator<TopUpCubit>(),
+                    ),
+                    BlocProvider<BeneficiaryCubit>(
+                      create: (context) => serviceLocator<BeneficiaryCubit>(),
+                    ),
+                  ],
+                  child: TopUpScreen(),
+                );
+              },
+            ),
+          ]
         ),
-        GoRoute(
-          name: Routes.topUpRoute,
-          path: Routes.topUpRoute,
-          builder: (context, state) {
-            return MultiBlocProvider(
-              providers: [
-                BlocProvider<TopUpCubit>(
-                  create: (context) => serviceLocator<TopUpCubit>(),
-                ),
-                BlocProvider<BeneficiaryCubit>(
-                  create: (context) => serviceLocator<BeneficiaryCubit>(),
-                ),
-              ],
-              child: TopUpScreen(),
-            );
-          },
-        ),
+
       ],
     ),
   ],

@@ -94,7 +94,7 @@ class HomeScreen extends StatelessWidget {
                       btnIcon: Icons.add,
                       btnName: 'Top Up',
                       onPress: () {
-                        context.pushNamed(Routes.topUpRoute);
+                        context.pushNamed('${Routes.homeRoute}/${Routes.topUpRoute}');
                       },
                     ),
                   ),
