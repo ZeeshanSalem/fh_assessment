@@ -1,6 +1,7 @@
+import 'package:equatable/equatable.dart';
 import 'package:fh_assignment/core/utils/enums.dart';
 
-class Transaction {
+class Transaction extends Equatable {
   String? createdAt;
   String? beneficiary;
   TransactionType? type;
@@ -11,12 +12,12 @@ class Transaction {
 
   Transaction(
       {this.createdAt,
-        this.beneficiary,
-        this.type,
-        this.amount,
-        this.accountNumber,
-        this.currency,
-        this.id});
+      this.beneficiary,
+      this.type,
+      this.amount,
+      this.accountNumber,
+      this.currency,
+      this.id});
 
   Transaction.fromJson(Map<String, dynamic> json) {
     createdAt = json['createdAt'];
@@ -44,8 +45,13 @@ class Transaction {
   TransactionType? _transactionTypeFromString(String? type) {
     if (type == null) return null;
     return TransactionType.values.firstWhere(
-          (e) => e.name == type,
+      (e) => e.name == type,
       orElse: () => throw ArgumentError('Invalid transaction type: $type'),
     );
   }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props =>
+      [createdAt, beneficiary, type, amount, accountNumber, currency, id];
 }

@@ -36,14 +36,13 @@ class HomeRepositoryImpl extends HomeRepository {
   Future<Either<Exception, List<Transaction>>> getTransactions() async {
     if (networkInfo.isConnected) {
       try {
-        List<Transaction> fetchedData = [];
         final response = await homeRemoteDataSource.getTransactions();
+        final transactions = (response as List<dynamic>)
+            .map((e) => Transaction.fromJson(e as Map<String, dynamic>))
+            .toList();
 
-        final List jsonList = response;
 
-        fetchedData =
-            jsonList.map((json) => Transaction.fromJson(json)).toList();
-        return Right(fetchedData);
+        return Right(transactions);
       } on ServerException catch (exception) {
         return Left(
           ServerException(
