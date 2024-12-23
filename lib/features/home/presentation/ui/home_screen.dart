@@ -1,3 +1,4 @@
+import 'package:fh_assignment/core/common_widgets/common_widget.dart';
 import 'package:fh_assignment/core/routing/routers.dart';
 import 'package:fh_assignment/core/utils/typography.dart';
 import 'package:fh_assignment/features/home/presentation/cubit/home_cubit.dart';
@@ -56,7 +57,8 @@ class HomeScreen extends StatelessWidget {
           actions: [
             IconButton(
               onPressed: () {
-                // todo: Implementation
+                _showFeatureComingSoonMsg(context);
+
               },
               icon: Icon(
                 Icons.notifications_none_outlined,
@@ -109,7 +111,10 @@ class HomeScreen extends StatelessWidget {
                     child: FeatureButton(
                       btnIcon: Icons.send,
                       btnName: 'Transfer',
-                      onPress: () {},
+                      onPress: () {
+                        _showFeatureComingSoonMsg(context);
+
+                      },
                     ),
                   ),
                 ],
@@ -118,9 +123,22 @@ class HomeScreen extends StatelessWidget {
               ///  Transaction.
               Padding(
                 padding: const EdgeInsets.only(top: 10),
-                child: Text(
-                  'Transaction',
-                  style: AppTypography.lightTheme.titleMedium,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Transaction',
+                      style: AppTypography.lightTheme.titleMedium,
+                    ),
+
+                    TextButton(onPressed: (){
+                      _showFeatureComingSoonMsg(context);
+                    },
+                        child: Text(
+                          'See All',
+                          style: AppTypography.lightTheme.titleMedium,
+                        ),),
+                  ],
                 ),
               ),
 
@@ -128,6 +146,16 @@ class HomeScreen extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  _showFeatureComingSoonMsg(BuildContext context){
+    ScaffoldMessenger.of(context).showSnackBar(
+      customSnackBar(
+        status: SnackBarStatusEnum.info,
+        context: context,
+        msg: 'Feature Coming soon!',
       ),
     );
   }

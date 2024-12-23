@@ -2,7 +2,7 @@ import 'package:fh_assignment/core/utils/app_colors.dart';
 import 'package:fh_assignment/core/utils/typography.dart';
 import 'package:flutter/material.dart';
 
-enum SnackBarStatusEnum { success, failure, warning }
+enum SnackBarStatusEnum { success, failure, warning, info }
 
 SnackBar customSnackBar(
     {required SnackBarStatusEnum status,
@@ -17,11 +17,7 @@ SnackBar customSnackBar(
         spacing: 15,
         children: [
           Icon(
-            status == SnackBarStatusEnum.success
-                ? Icons.check_circle_outline
-                : status == SnackBarStatusEnum.warning
-                    ? Icons.warning
-                    : Icons.error,
+            _getSnackBarIcon(status),
             color: Colors.white,
           ),
           Expanded(
@@ -34,10 +30,34 @@ SnackBar customSnackBar(
         ],
       ),
     ),
-    backgroundColor: status == SnackBarStatusEnum.success
-        ? CustomColors.success
-        : status == SnackBarStatusEnum.warning
-            ? CustomColors.warning
-            : CustomColors.error,
+    backgroundColor: _getSnackBarBackgroundColor(status),
   );
+}
+
+_getSnackBarIcon(SnackBarStatusEnum status) {
+  switch (status) {
+    case SnackBarStatusEnum.failure:
+      return Icons.error;
+
+    case SnackBarStatusEnum.warning:
+      return Icons.warning;
+    case SnackBarStatusEnum.info:
+      return Icons.info_outline;
+    case SnackBarStatusEnum.success:
+      return Icons.check_circle_outline;
+  }
+}
+
+_getSnackBarBackgroundColor(SnackBarStatusEnum status) {
+  switch (status) {
+    case SnackBarStatusEnum.failure:
+      return CustomColors.error;
+
+    case SnackBarStatusEnum.warning:
+      return CustomColors.warning;
+    case SnackBarStatusEnum.info:
+      return CustomColors.lightPurple;
+    case SnackBarStatusEnum.success:
+      return CustomColors.success;
+  }
 }

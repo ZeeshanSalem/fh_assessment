@@ -10,17 +10,14 @@ class AppGlobalProvider extends StatelessWidget {
     super.key,
     required this.child,
   });
+
   final Widget child;
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => serviceLocator<HomeCubit>(),
-        ),
-
-      ],
+    // here we can used multi-provider for more then one bloc/cubit
+    return BlocProvider(
+      create: (context) => serviceLocator<HomeCubit>(),
       child: child,
     );
   }
