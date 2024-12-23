@@ -105,6 +105,9 @@ class TopUpScreen extends StatelessWidget {
                     context
                         .read<HomeCubit>()
                         .updateMyBalance(state.latestTransaction);
+                    context
+                        .read<TransactionCubit>()
+                        .addTransactionFromTopUp(state.latestTransaction);
 
                     _hideOverlay(context);
                     _showMessage(TopUpStatus.success, context);

@@ -131,4 +131,23 @@ class TransactionCubit extends BaseCubit<TransactionState> {
         }).toList() ??
         [];
   }
+
+  void addTransactionFromTopUp(Transaction? transaction) {
+    emit(state.copyWith(
+      status: TransactionStatus.addingTransaction,
+    ));
+    if (transaction == null) return;
+    List<Transaction> transactions = List.from(state.transactions ?? []);
+
+    /*
+        * Here insert in 0 mean. to show on top because while during fetch we
+        * reverse list.
+        * */
+    transactions.insert(0, transaction);
+
+    emit(state.copyWith(
+      status: TransactionStatus.transactionAdded,
+      transactions: transactions,
+    ));
+  }
 }
