@@ -48,7 +48,7 @@ class YourBalanceTile extends StatelessWidget {
                   beneficiary: 'MyAccount',
                   type: TransactionType.credit,
                   accountNumber:'as',
-                  amount: '100',
+                  amount: '50',
                   currency: 'AED',
                   id: Utils.generateTransactionID(),
                 ));

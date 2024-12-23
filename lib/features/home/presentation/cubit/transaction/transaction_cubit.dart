@@ -33,10 +33,15 @@ class TransactionCubit extends BaseCubit<TransactionState> {
         );
       }, (r) {
 
-        List<Transaction> reverseList = r.reversed.toList();
+        List<Transaction> sortedList = r;
+        sortedList.sort((a, b) {
+          DateTime dateA = DateTime.parse(a.createdAt!);
+          DateTime dateB = DateTime.parse(b.createdAt!);
+          return dateB.compareTo(dateA);
+        });
         emit(state.copyWith(
           status: TransactionStatus.success,
-          transactions: reverseList,
+          transactions: sortedList,
         ));
       });
     } catch (e, s) {
@@ -67,9 +72,16 @@ class TransactionCubit extends BaseCubit<TransactionState> {
       }, (r) {
         List<Transaction> transaction = List.from(state.transactions ?? []);
 
+        // here add in top because this list will be always
         transaction.add(r);
 
-        transaction.reversed.toList();
+
+        transaction.sort((a, b) {
+          DateTime dateA = DateTime.parse(a.createdAt!);
+          DateTime dateB = DateTime.parse(b.createdAt!);
+          return dateB.compareTo(dateA);
+        });
+
         emit(state.copyWith(
           status: TransactionStatus.transactionAdded,
           transactions: transaction,
