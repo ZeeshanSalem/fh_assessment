@@ -77,22 +77,32 @@ class HomeCubit extends BaseCubit<HomeState> {
   * When Transaction is successfully added we checked is it recharge our account.
   *  if yes we will update over balance here.
   * */
-  onRecharge(Transaction? transaction) async {
+  Future<void> updateMyBalance(Transaction? transaction) async {
     try {
-      if (state.user?.id != transaction?.id &&
-          transaction?.type != TransactionType.credit) {
-        return;
-      }
       emit(
         state.copyWith(
           status: HomeStatus.loading,
         ),
       );
+
       User user = User.fromJson(state.user!.toJson());
       num balance = user.totalBalance ?? 0;
-      num rechargeAmount = num.tryParse('${transaction?.amount}') ?? 0;
-      num totalBalance = balance + rechargeAmount;
-      user.totalBalance = totalBalance;
+      num chargedAmount = num.tryParse('${transaction?.amount}') ?? 0;
+
+      // here it's mean we add credit in our own account.
+      if (state.user?.id == transaction?.id &&
+          transaction?.type == TransactionType.credit) {
+        num totalBalance = balance + chargedAmount;
+        user.totalBalance = totalBalance;
+      }
+
+      // it's mean this transaction happened on topUp screen for beneficiary.
+      // Here will also do deduction of transaction fee
+      if (state.user?.id != transaction?.id &&
+          transaction?.type == TransactionType.debt) {
+        num totalBalance = balance - (chargedAmount + Constant.transactionFee);
+        user.totalBalance = totalBalance;
+      }
 
       preferences.setPreferencesData(
           Constant.kProfile, jsonEncode(user.toJson()));

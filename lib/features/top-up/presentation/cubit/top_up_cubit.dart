@@ -53,28 +53,33 @@ class TopUpCubit extends BaseCubit<TopUpState> {
   Future<void> onTopUp(Transaction transaction) async {
     try {
       emit(state.copyWith(
-        status: TopUpStatus.loading,
-      ));
+          status: TopUpStatus.loading,
+          selectedAmount: state.selectedAmount,
+          selectedBeneficiary: state.selectedBeneficiary));
 
       final response = await topUpRepository.topUp(transaction);
 
       response.fold((l) {
         emit(
           state.copyWith(
-            status: TopUpStatus.failure,
-            errorModel: handleException(l),
-          ),
+              status: TopUpStatus.failure,
+              errorModel: handleException(l),
+              selectedAmount: state.selectedAmount,
+              selectedBeneficiary: state.selectedBeneficiary),
         );
       }, (r) {
         emit(state.copyWith(
-          status: TopUpStatus.success,
-          latestTransaction: transaction,
-        ));
+            status: TopUpStatus.success,
+            latestTransaction: transaction,
+            selectedAmount: state.selectedAmount,
+            selectedBeneficiary: state.selectedBeneficiary));
       });
     } catch (e, stackTrace) {
       logger.e('$e', stackTrace);
       emit(state.copyWith(
         status: TopUpStatus.failure,
+        selectedAmount: state.selectedAmount,
+        selectedBeneficiary: state.selectedBeneficiary,
         errorModel: ErrorModel(
           message: 'Exception $e',
         ),

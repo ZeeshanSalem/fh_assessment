@@ -32,7 +32,6 @@ class TransactionCubit extends BaseCubit<TransactionState> {
           ),
         );
       }, (r) {
-
         /// @Dev :to show last transaction is first one
         List<Transaction> reverseList = r.reversed.toList();
 
@@ -50,8 +49,6 @@ class TransactionCubit extends BaseCubit<TransactionState> {
       ));
     }
   }
-
-
 
   Future<void> addTransaction(Transaction transaction) async {
     try {
@@ -75,9 +72,7 @@ class TransactionCubit extends BaseCubit<TransactionState> {
         * Here insert in 0 mean. to show on top because while during fetch we
         * reverse list.
         * */
-        transaction.insert(0,r);
-
-
+        transaction.insert(0, r);
 
         emit(state.copyWith(
           status: TransactionStatus.transactionAdded,
@@ -94,5 +89,24 @@ class TransactionCubit extends BaseCubit<TransactionState> {
     }
   }
 
+  /// FixMe.
 
+  addLocal(Transaction? transaction) async{
+
+
+    if (transaction == null) {
+      return;
+    }
+    emit(state.copyWith(
+      status: TransactionStatus.loading,
+    ));
+
+    await Future.delayed(Duration(seconds: 1));
+    List<Transaction> transactions = List.from(state.transactions ?? []);
+    transactions.insert(0, transaction);
+    emit(state.copyWith(
+      status: TransactionStatus.success,
+      transactions: transactions,
+    ));
+  }
 }

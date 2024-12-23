@@ -50,7 +50,7 @@ class TransactionListTile extends StatelessWidget {
           /*
           * here whenever new transaction is added. it will index 0.
           * */
-          context.read<HomeCubit>().onRecharge(state.transactions![0]);
+          context.read<HomeCubit>().updateMyBalance(state.transactions![0]);
           ScaffoldMessenger.of(context).showSnackBar(
             customSnackBar(
               status: SnackBarStatusEnum.success,

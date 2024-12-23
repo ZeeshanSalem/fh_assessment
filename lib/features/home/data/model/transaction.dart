@@ -7,7 +7,7 @@ class Transaction {
   String? amount;
   String? accountNumber;
   String? currency;
-  String? id;
+  String? id; // will be generated in server.
 
   Transaction(
       {this.createdAt,
