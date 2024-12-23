@@ -24,14 +24,14 @@ class AmountTile extends StatelessWidget {
               checkmarkColor: Colors.white,
               disabledColor: Colors.grey,
               labelStyle: AppTypography.lightTheme.bodyMedium?.copyWith(
-                color: state.selectedAmount ==
+                color: state.topUpAmount ==
                     Constant.rechargeableAmounts[index]
                     ? Colors.white
                     : Colors.black,
               ),
               label: Text('${Constant.currency} ${Constant.rechargeableAmounts[index]}'),
               selected:
-                  state.selectedAmount == Constant.rechargeableAmounts[index],
+                  state.topUpAmount == Constant.rechargeableAmounts[index],
               onSelected: (value) {
                 if (value) {
                   context.read<TopUpCubit>()

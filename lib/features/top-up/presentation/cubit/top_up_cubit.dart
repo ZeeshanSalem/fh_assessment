@@ -22,14 +22,14 @@ class TopUpCubit extends BaseCubit<TopUpState> {
     emit(
       state.copyWith(
         status: TopUpStatus.optionSelection,
-        selectedAmount: null,
+        topUpAmount: null,
         selectedBeneficiary: state.selectedBeneficiary,
       ),
     );
     emit(
       state.copyWith(
           status: TopUpStatus.optionSelected,
-          selectedAmount: amount,
+          topUpAmount: amount,
           selectedBeneficiary: state.selectedBeneficiary),
     );
   }
@@ -38,14 +38,14 @@ class TopUpCubit extends BaseCubit<TopUpState> {
     emit(
       state.copyWith(
         status: TopUpStatus.optionSelection,
-        selectedAmount: state.selectedAmount,
+        topUpAmount: state.topUpAmount,
         selectedBeneficiary: null,
       ),
     );
     emit(
       state.copyWith(
           status: TopUpStatus.optionSelected,
-          selectedAmount: state.selectedAmount,
+          topUpAmount: state.topUpAmount,
           selectedBeneficiary: beneficiary),
     );
   }
@@ -54,7 +54,7 @@ class TopUpCubit extends BaseCubit<TopUpState> {
     try {
       emit(state.copyWith(
           status: TopUpStatus.loading,
-          selectedAmount: state.selectedAmount,
+          topUpAmount: state.topUpAmount,
           selectedBeneficiary: state.selectedBeneficiary));
 
       final response = await topUpRepository.topUp(transaction);
@@ -64,21 +64,23 @@ class TopUpCubit extends BaseCubit<TopUpState> {
           state.copyWith(
               status: TopUpStatus.failure,
               errorModel: handleException(l),
-              selectedAmount: state.selectedAmount,
+              topUpAmount: state.topUpAmount,
               selectedBeneficiary: state.selectedBeneficiary),
         );
       }, (r) {
         emit(state.copyWith(
-            status: TopUpStatus.success,
-            latestTransaction: transaction,
-            selectedAmount: state.selectedAmount,
-            selectedBeneficiary: state.selectedBeneficiary));
+          status: TopUpStatus.success,
+          latestTransaction: transaction,
+          topUpAmount: state.topUpAmount,
+          selectedBeneficiary: state.selectedBeneficiary,
+          isNewTopUpAdded: true,
+        ));
       });
     } catch (e, stackTrace) {
       logger.e('$e', stackTrace);
       emit(state.copyWith(
         status: TopUpStatus.failure,
-        selectedAmount: state.selectedAmount,
+        topUpAmount: state.topUpAmount,
         selectedBeneficiary: state.selectedBeneficiary,
         errorModel: ErrorModel(
           message: 'Exception $e',

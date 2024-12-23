@@ -14,33 +14,41 @@ class TopUpState extends Equatable {
   final ErrorModel? errorModel;
   final Transaction? latestTransaction;
 
+  /// this check is used when we add new topUp and want to come back
+  /// from topUp Screen at that time we can refresh list on home screen.
+  final bool? isNewTopUpAdded;
+
   /// Selected Recharge amount for topUp
-  final num? selectedAmount;
+  final num? topUpAmount;
 
   /// Account for topUp Contain
   /// 1. nickname
   /// 2. id: [Register Phone Number]
   final Beneficiary? selectedBeneficiary;
 
-  const TopUpState(
-      {this.errorModel,
-      this.status,
-      this.selectedAmount,
-      this.selectedBeneficiary,
-      this.latestTransaction});
+  const TopUpState({
+    this.errorModel,
+    this.status,
+    this.topUpAmount,
+    this.selectedBeneficiary,
+    this.latestTransaction,
+    this.isNewTopUpAdded,
+  });
 
   TopUpState copyWith({
     TopUpStatus? status,
     ErrorModel? errorModel,
-    num? selectedAmount,
+    num? topUpAmount,
     Beneficiary? selectedBeneficiary,
     Transaction? latestTransaction,
+    bool? isNewTopUpAdded,
   }) {
     return TopUpState(
       status: status ?? this.status,
+      isNewTopUpAdded: isNewTopUpAdded ?? this.isNewTopUpAdded,
       errorModel: errorModel ?? this.errorModel,
       latestTransaction: latestTransaction ?? this.latestTransaction,
-      selectedAmount: selectedAmount,
+      topUpAmount: topUpAmount,
       selectedBeneficiary: selectedBeneficiary,
     );
   }
@@ -57,7 +65,8 @@ class TopUpState extends Equatable {
       selectedBeneficiary: json['selectedBeneficiary'] != null
           ? Beneficiary.fromJson(json['selectedBeneficiary'])
           : null,
-      selectedAmount: json['selectedAmount'],
+      topUpAmount: json['topUpAmount'],
+      isNewTopUpAdded: json['isNewTopUpAdded'],
     );
   }
 
@@ -65,7 +74,8 @@ class TopUpState extends Equatable {
         'status': status,
         'errorModel': errorModel?.toJson(),
         'selectedBeneficiary': selectedBeneficiary?.toJson(),
-        'selectedAmount': selectedAmount,
+        'topUpAmount': topUpAmount,
+        'isNewTopUpAdded': isNewTopUpAdded,
         'latestTransaction': latestTransaction?.toJson(),
       };
 
@@ -74,7 +84,8 @@ class TopUpState extends Equatable {
         errorModel,
         status,
         selectedBeneficiary,
-        selectedAmount,
+        topUpAmount,
         latestTransaction,
+        isNewTopUpAdded,
       ];
 }

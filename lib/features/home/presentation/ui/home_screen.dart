@@ -17,7 +17,7 @@ class HomeScreen extends StatelessWidget {
     return LoaderOverlay(
       child: Scaffold(
         drawerEnableOpenDragGesture: true,
-      
+
         /// 1. `AppBar` : contain 1. Avatar 2. UserName
         appBar: AppBar(
           leading: Padding(
@@ -66,13 +66,12 @@ class HomeScreen extends StatelessWidget {
             ),
           ],
         ),
-      
+
         /// 2. Drawer Section.
         drawer: Drawer(
           child: HomeDrawer(),
         ),
-      
-      
+
         body: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
           child: Column(
@@ -82,7 +81,7 @@ class HomeScreen extends StatelessWidget {
             children: [
               /// Total Balance  tile
               YourBalanceTile(),
-      
+
               /// Feature Action Buttons.
               Text(
                 'Features',
@@ -95,8 +94,15 @@ class HomeScreen extends StatelessWidget {
                     child: FeatureButton(
                       btnIcon: Icons.add,
                       btnName: 'Top Up',
-                      onPress: () {
-                        context.pushNamed('${Routes.homeRoute}/${Routes.topUpRoute}');
+                      onPress: () async {
+                        final result = await context.pushNamed<bool>(
+                          '${Routes.homeRoute}/${Routes.topUpRoute}',
+                        );
+
+                        // Here we will Refresh the list of transaction.
+                        if (result == true && context.mounted) {
+                          context.read<TransactionCubit>().getTransactions();
+                        }
                       },
                     ),
                   ),
@@ -109,7 +115,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ],
               ),
-      
+
               ///  Transaction.
               Padding(
                 padding: const EdgeInsets.only(top: 10),
@@ -118,7 +124,7 @@ class HomeScreen extends StatelessWidget {
                   style: AppTypography.lightTheme.titleMedium,
                 ),
               ),
-      
+
               TransactionListTile(),
             ],
           ),
@@ -126,6 +132,4 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
-
-
 }
