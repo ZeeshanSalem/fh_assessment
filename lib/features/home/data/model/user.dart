@@ -8,7 +8,7 @@
 class User {
   String? id;
   String? name;
-  double? totalBalance;
+  num? totalBalance;
   bool? accountStatus;
 
   User({

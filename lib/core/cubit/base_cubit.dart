@@ -1,6 +1,9 @@
 import 'package:dio/dio.dart';
+import 'package:fh_assignment/core/di/injection_container_common.dart';
 import 'package:fh_assignment/core/error/exception.dart';
 import 'package:fh_assignment/core/error/model/error_response_model.dart';
+import 'package:fh_assignment/core/logger/app_logger.dart';
+import 'package:fh_assignment/core/utils/preferences_utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../error/model/error_data.dart';
@@ -9,6 +12,10 @@ import '../error/model/error_data.dart';
 abstract class BaseCubit<State> extends BlocBase<State> {
   /// {@macro cubit}
   BaseCubit(super.iniState);
+  PreferencesUtil preferences = serviceLocator<PreferencesUtil>();
+  AppLogger logger = serviceLocator<AppLogger>();
+
+
 
   @override
   void emit(State state) {
