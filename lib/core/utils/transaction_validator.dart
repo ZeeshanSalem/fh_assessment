@@ -48,8 +48,7 @@ class TransactionValidator {
     final totalMonthlySpent = _calculateTotalMonthlySpent();
     final newTransactionAmount = _parseAmount(newTransaction.amount);
 
-    if (totalMonthlySpent + newTransactionAmount + Constant.transactionFee >
-        Constant.monthlyTopUpLimit) {
+    if (totalMonthlySpent + newTransactionAmount > Constant.monthlyTopUpLimit) {
       return TransactionValidationResult.failure(
         'Monthly spending limit of AED ${Constant.monthlyTopUpLimit} exceeded',
       );
@@ -69,10 +68,7 @@ class TransactionValidator {
         ? Constant.verifiedBeneficiaryLimit
         : Constant.unVerifiedBeneficiaryLimit;
 
-    if (monthlyBeneficiarySpent +
-            newTransactionAmount +
-            Constant.transactionFee >
-        beneficiaryLimit) {
+    if (monthlyBeneficiarySpent + newTransactionAmount > beneficiaryLimit) {
       return TransactionValidationResult.failure(
         '${isUserVerified ? 'Verified' : 'Unverified'} users can top up '
         'maximum AED $beneficiaryLimit per beneficiary per month',
