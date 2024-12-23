@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:fh_assignment/core/di/injection_container_common.dart';
 import 'package:fh_assignment/core/error/exception.dart';
 import 'package:fh_assignment/core/network/network_client.dart';
 import 'package:fh_assignment/core/network/network_constant.dart';
@@ -20,9 +19,9 @@ abstract class HomeLocalDataSource {
 
 class HomeLocalDataSourceImpl extends HomeLocalDataSource {
   final NetworkClient networkClient;
-  PreferencesUtil preferences = serviceLocator<PreferencesUtil>();
+  final PreferencesUtil preferencesUtil;
 
-  HomeLocalDataSourceImpl({required this.networkClient});
+  HomeLocalDataSourceImpl({required this.networkClient,required this.preferencesUtil});
 
   @override
   Future<dynamic> getTransactions() async {
@@ -45,7 +44,7 @@ class HomeLocalDataSourceImpl extends HomeLocalDataSource {
     try {
       /// Here first time it's will be null at that time will get mock data from
       /// profile.json which is in asset folder
-      String profileString = preferences.getPreferencesData(Constant.kProfile);
+      String profileString = preferencesUtil.getPreferencesData(Constant.kProfile);
       if (profileString.isNotEmpty) {
         return jsonDecode(profileString) as Map<String, dynamic>;
       } else {
@@ -83,7 +82,7 @@ class HomeLocalDataSourceImpl extends HomeLocalDataSource {
         await rootBundle.loadString('assets/data/profile.json');
     Map<String, dynamic> profileJson =
         jsonDecode(jsonString) as Map<String, dynamic>;
-    preferences.setPreferencesData(Constant.kProfile, jsonEncode(profileJson));
+    preferencesUtil.setPreferencesData(Constant.kProfile, jsonEncode(profileJson));
     return profileJson;
   }
 }

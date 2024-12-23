@@ -18,6 +18,7 @@ Future<void> initRemoteDI() async {
   serviceLocator.registerLazySingleton<HomeLocalDataSource>(
     () => HomeLocalDataSourceImpl(
       networkClient: serviceLocator(),
+      preferencesUtil: serviceLocator(),
     ),
   );
 }
