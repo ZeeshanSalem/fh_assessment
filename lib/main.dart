@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'app_parent.dart';
 import 'core/di/injection_container_common.dart';
@@ -10,6 +11,11 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   PreferenceUtils.init();
   await initDi();
+  // Lock the app in portrait mode
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   runApp(const MyApp());
 }
 
