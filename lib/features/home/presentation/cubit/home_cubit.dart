@@ -52,41 +52,57 @@ class HomeCubit extends BaseCubit<HomeState> {
   }
 
   onAccountVerification(bool isVerify) async {
-    emit(
-      state.copyWith(
-        status: HomeStatus.loading,
-      ),
-    );
-    User user = User.fromJson(state.user!.toJson());
-    user.accountStatus = isVerify;
-    preferences.setPreferencesData(
-        Constant.kProfile, jsonEncode(user.toJson()));
+    try {
+      emit(
+        state.copyWith(
+          status: HomeStatus.loading,
+        ),
+      );
+      User user = User.fromJson(state.user!.toJson());
+      user.accountStatus = isVerify;
+      preferences.setPreferencesData(
+          Constant.kProfile, jsonEncode(user.toJson()));
 
-    emit(state.copyWith(status: HomeStatus.success, user: user));
+      emit(state.copyWith(status: HomeStatus.success, user: user));
+    } catch (e, stackTrace) {
+      logger.e('$e', stackTrace);
+      emit(state.copyWith(
+        status: HomeStatus.failure,
+        errorModel: ErrorModel(message: 'Unexpected error occurred'),
+      ));
+    }
   }
 
   /*
-  * When Transaction is successfully added we checked is it recharge if yes
-  * will update over balance.
+  * When Transaction is successfully added we checked is it recharge our account.
+  *  if yes we will update over balance here.
   * */
   onRecharge(Transaction? transaction) async {
-    if (state.user?.id != transaction?.id &&
-        transaction?.type != TransactionType.credit) {
-      return;
-    }
-    emit(
-      state.copyWith(
-        status: HomeStatus.loading,
-      ),
-    );
-    User user = User.fromJson(state.user!.toJson());
-    num balance = user.totalBalance ?? 0;
-    num rechargeAmount = num.tryParse('${transaction?.amount}') ?? 0;
-    num totalBalance = balance + rechargeAmount;
-    user.totalBalance = totalBalance;
+    try {
+      if (state.user?.id != transaction?.id &&
+          transaction?.type != TransactionType.credit) {
+        return;
+      }
+      emit(
+        state.copyWith(
+          status: HomeStatus.loading,
+        ),
+      );
+      User user = User.fromJson(state.user!.toJson());
+      num balance = user.totalBalance ?? 0;
+      num rechargeAmount = num.tryParse('${transaction?.amount}') ?? 0;
+      num totalBalance = balance + rechargeAmount;
+      user.totalBalance = totalBalance;
 
-    preferences.setPreferencesData(
-        Constant.kProfile, jsonEncode(user.toJson()));
-    emit(state.copyWith(status: HomeStatus.success, user: user));
+      preferences.setPreferencesData(
+          Constant.kProfile, jsonEncode(user.toJson()));
+      emit(state.copyWith(status: HomeStatus.success, user: user));
+    } catch (e, stackTrace) {
+      logger.e('$e', stackTrace);
+      emit(state.copyWith(
+        status: HomeStatus.failure,
+        errorModel: ErrorModel(message: 'Unexpected error occurred'),
+      ));
+    }
   }
 }
