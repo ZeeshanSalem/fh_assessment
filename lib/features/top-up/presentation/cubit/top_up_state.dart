@@ -14,7 +14,7 @@ class TopUpState extends Equatable {
   final ErrorModel? errorModel;
 
   /// Selected Recharge amount for topUp
-  final String? selectedAmount;
+  final num? selectedAmount;
 
   /// Account for topUp Contain
   /// 1. nickname
@@ -31,7 +31,7 @@ class TopUpState extends Equatable {
   TopUpState copyWith({
     TopUpStatus? status,
     ErrorModel? errorModel,
-    String? selectedAmount,
+    num? selectedAmount,
     Beneficiary? selectedBeneficiary,
   }) {
     return TopUpState(

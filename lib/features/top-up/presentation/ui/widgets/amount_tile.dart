@@ -1,4 +1,5 @@
 import 'package:fh_assignment/core/utils/app_colors.dart';
+import 'package:fh_assignment/core/utils/constants.dart';
 import 'package:fh_assignment/core/utils/typography.dart';
 import 'package:fh_assignment/features/top-up/presentation/cubit/top_up_cubit.dart';
 import 'package:flutter/material.dart';
@@ -14,30 +15,29 @@ class AmountTile extends StatelessWidget {
           state.status == TopUpStatus.optionSelection ||
           state.status == TopUpStatus.optionSelected,
       builder: (context, state) {
-        final topUpCubit = context.read<TopUpCubit>();
         return Wrap(
           spacing: 5,
           children: List.generate(
-            topUpCubit.rechargeableAmounts.length,
+            Constant.rechargeableAmounts.length,
             (index) => ChoiceChip(
               selectedColor: CustomColors.primary,
               checkmarkColor: Colors.white,
               disabledColor: Colors.grey,
               labelStyle: AppTypography.lightTheme.bodyMedium?.copyWith(
                 color: state.selectedAmount ==
-                        topUpCubit.rechargeableAmounts[index]
+                    Constant.rechargeableAmounts[index]
                     ? Colors.white
                     : Colors.black,
               ),
-              label: Text(topUpCubit.rechargeableAmounts[index]),
+              label: Text('${Constant.currency} ${Constant.rechargeableAmounts[index]}'),
               selected:
-                  state.selectedAmount == topUpCubit.rechargeableAmounts[index],
+                  state.selectedAmount == Constant.rechargeableAmounts[index],
               onSelected: (value) {
                 if (value) {
-                  topUpCubit
-                      .onAmountSelection(topUpCubit.rechargeableAmounts[index]);
+                  context.read<TopUpCubit>()
+                      .onAmountSelection(Constant.rechargeableAmounts[index]);
                 } else {
-                  topUpCubit.onAmountSelection(null);
+                  context.read<TopUpCubit>().onAmountSelection(null);
                 }
               },
             ),

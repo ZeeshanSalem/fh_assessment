@@ -17,19 +17,9 @@ class TopUpCubit extends BaseCubit<TopUpState> {
           ),
         );
 
-  /// TopUp Recharge Amount options.
-  /// It's contain 5, 10, 20, 30, 50,75 and 100 AED.
-  final List<String> rechargeableAmounts = [
-    'AED 5',
-    'AED 10',
-    'AED 20',
-    'AED 30',
-    'AED 50',
-    'AED 75',
-    'AED 100',
-  ];
 
-  onAmountSelection(String? amount) {
+
+  onAmountSelection(num? amount) {
     emit(
       state.copyWith(
         status: TopUpStatus.optionSelection,
@@ -55,10 +45,9 @@ class TopUpCubit extends BaseCubit<TopUpState> {
     );
     emit(
       state.copyWith(
-        status: TopUpStatus.optionSelected,
-        selectedAmount: state.selectedAmount,
-        selectedBeneficiary: beneficiary
-      ),
+          status: TopUpStatus.optionSelected,
+          selectedAmount: state.selectedAmount,
+          selectedBeneficiary: beneficiary),
     );
   }
 }
