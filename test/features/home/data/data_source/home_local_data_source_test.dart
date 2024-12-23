@@ -25,7 +25,7 @@ void main() {
   final tTransaction = Transaction(
     id: '1',
     createdAt: '2024-01-20T10:00:00Z',
-    beneficiary: 'John Doe',
+    beneficiary: 'Zeeshan',
     type: TransactionType.credit,
     amount: '100.00',
     accountNumber: '+1234567890',
@@ -50,7 +50,7 @@ void main() {
             {
               'id': '1',
               'createdAt': '2024-01-20T10:00:00Z',
-              'beneficiary': 'John Doe',
+              'beneficiary': 'Zeeshan',
               'type': 'credit',
               'amount': '100.00',
               'accountNumber': '+1234567890',
