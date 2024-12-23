@@ -5,6 +5,7 @@ import 'package:fh_assignment/core/utils/utils.dart';
 import 'package:fh_assignment/features/home/data/model/transaction.dart';
 import 'package:fh_assignment/features/home/presentation/cubit/home_cubit.dart';
 import 'package:fh_assignment/features/home/presentation/cubit/transaction/transaction_cubit.dart';
+import 'package:fh_assignment/features/home/presentation/ui/widgets/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -43,15 +44,13 @@ class YourBalanceTile extends StatelessWidget {
             ),
             IconButton(
               onPressed: () {
-                context.read<TransactionCubit>().addTransaction(Transaction(
-                  createdAt: DateTime.now().toIso8601String(),
-                  beneficiary: 'MyAccount',
-                  type: TransactionType.credit,
-                  accountNumber:'as',
-                  amount: '50',
-                  currency: 'AED',
-                  id: Utils.generateTransactionID(),
-                ));
+                showDialog(context: context, builder: (dialogContext) =>
+                    BlocProvider.value(
+                      value: context.read<TransactionCubit>(),
+                      child: RechargeDialog(),
+                    ),
+                );
+
               },
               icon: Icon(
                 Icons.add,

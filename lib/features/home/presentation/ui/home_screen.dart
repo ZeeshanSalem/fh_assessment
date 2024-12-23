@@ -71,7 +71,7 @@ class HomeScreen extends StatelessWidget {
         drawer: Drawer(
           child: HomeDrawer(),
         ),
-        body: Padding(
+        body: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

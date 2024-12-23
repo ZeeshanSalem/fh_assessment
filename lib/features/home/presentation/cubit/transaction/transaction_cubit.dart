@@ -54,6 +54,8 @@ class TransactionCubit extends BaseCubit<TransactionState> {
     }
   }
 
+
+
   Future<void> addTransaction(Transaction transaction) async {
     try {
       emit(state.copyWith(
