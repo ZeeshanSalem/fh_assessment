@@ -43,3 +43,9 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Generated files
+*.mocks.dart
+/test/**/*.mocks.dart
+/test/core/**/*.mocks.dart
+/test/features/**/*.mocks.dart
