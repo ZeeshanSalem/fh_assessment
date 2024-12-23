@@ -10,7 +10,7 @@ class Constant {
   static String currency = 'AED';
   static String transactionSuccessMsg = 'TopUp Successfully Done';
   static String transactionUnSuccessMsg = 'TopUp UnSuccessfully';
-  static List<num> rechargeableAmounts = [5, 10, 20, 30, 50, 75, 100, 200, 400, 500];
+  static List<num> rechargeableAmounts = [5, 10, 20, 30, 50, 75, 100,];
 
 
 }
