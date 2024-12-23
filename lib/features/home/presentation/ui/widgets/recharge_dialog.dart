@@ -34,7 +34,7 @@ class _RechargeDialogState extends State<RechargeDialog> {
 
   void _submit() {
     if (_formKey.currentState!.validate()) {
-      context.read<TransactionCubit>().addTransaction(Transaction(
+      context.read<TransactionCubit>().recharge(Transaction(
             createdAt: DateTime.now().toIso8601String(),
             beneficiary: '${context.read<HomeCubit>().state.user?.name}',
             type: TransactionType.credit,

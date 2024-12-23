@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fh_assignment/core/utils/app_colors.dart';
 import 'package:fh_assignment/core/utils/typography.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 part 'transaction_tile.dart';
 
@@ -46,29 +47,42 @@ class TransactionListTile extends StatelessWidget {
       },
       // Listener Part
       listener: (context, state) {
+        if (state.status == TransactionStatus.addingTransaction) {
+          context.loaderOverlay.show();
+        }
         if (state.status == TransactionStatus.transactionAdded) {
           /*
           * here whenever new transaction is added. it will index 0.
           * */
           context.read<HomeCubit>().updateMyBalance(state.transactions![0]);
-          ScaffoldMessenger.of(context).showSnackBar(
-            customSnackBar(
-              status: SnackBarStatusEnum.success,
-              context: context,
-              msg: Constant.transactionSuccessMsg,
-            ),
-          );
+          _hideOverlay(context);
+          _showMessage(TransactionStatus.transactionAdded, context);
         }
         if (state.status == TransactionStatus.transactionFailed) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            customSnackBar(
-              status: SnackBarStatusEnum.failure,
-              context: context,
-              msg: Constant.transactionUnSuccessMsg,
-            ),
-          );
+          _hideOverlay(context);
+          _showMessage(TransactionStatus.transactionFailed, context);
         }
       },
+    );
+  }
+
+  _hideOverlay(BuildContext context) {
+    if (context.loaderOverlay.visible) {
+      context.loaderOverlay.hide();
+    }
+  }
+
+  _showMessage(TransactionStatus transactionStatus, BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      customSnackBar(
+        status: transactionStatus == TransactionStatus.transactionAdded
+            ? SnackBarStatusEnum.success
+            : SnackBarStatusEnum.failure,
+        context: context,
+        msg: transactionStatus == TransactionStatus.transactionAdded
+            ? Constant.transactionSuccessMsg
+            : Constant.transactionUnSuccessMsg,
+      ),
     );
   }
 }
