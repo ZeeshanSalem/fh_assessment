@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:fh_assignment/core/cubit/base_cubit.dart';
 import 'package:fh_assignment/core/error/model/error_response_model.dart';
+import 'package:fh_assignment/core/utils/transaction_validator.dart';
 import 'package:fh_assignment/features/home/data/model/transaction.dart';
 import 'package:fh_assignment/features/home/domain/repository/home_repository.dart';
 
@@ -40,7 +41,9 @@ class TransactionCubit extends BaseCubit<TransactionState> {
           transactions: reverseList,
         ));
       });
-    } catch (e, s) {
+    } catch (e, stackTrace) {
+      logger.e('$e', stackTrace);
+
       emit(state.copyWith(
         status: TransactionStatus.failure,
         errorModel: ErrorModel(
@@ -79,7 +82,8 @@ class TransactionCubit extends BaseCubit<TransactionState> {
           transactions: transaction,
         ));
       });
-    } catch (e, s) {
+    } catch (e, stackTrace) {
+      logger.e('$e', stackTrace);
       emit(state.copyWith(
         status: TransactionStatus.transactionFailed,
         errorModel: ErrorModel(
@@ -89,24 +93,42 @@ class TransactionCubit extends BaseCubit<TransactionState> {
     }
   }
 
-  /// FixMe.
+  /*
+   *  Validates a transaction against multiple business rules:
+   * 1. Balance Check:
+   *    - Ensures available balance is sufficient for the transaction
+   *    - Returns error if transaction amount exceeds available balance
+   *
+   * 2. Monthly Spending Limit:
+   *    - Total monthly transactions cannot exceed AED 3,000
+   *    - Includes all debt transactions in current calendar month
+   *
+   * 3. Beneficiary Limits:
+   *    - Verified users: Maximum AED 1,000 per beneficiary per month
+   *    - Unverified users: Maximum AED 500 per beneficiary per month
+  */
+  TransactionValidationResult validateTransaction(
+      Transaction transaction, bool isUserVerified, num availableBalance) {
+    final monthlyTransactions = _getCurrentMonthTransactions();
 
-  addLocal(Transaction? transaction) async{
+    final validator = TransactionValidator(
+      monthlyTransactions: monthlyTransactions,
+      isUserVerified: isUserVerified,
+      availableBalance: availableBalance,
+    );
 
+    return validator.validateTransaction(transaction);
+  }
 
-    if (transaction == null) {
-      return;
-    }
-    emit(state.copyWith(
-      status: TransactionStatus.loading,
-    ));
+  List<Transaction> _getCurrentMonthTransactions() {
+    final now = DateTime.now();
+    final currentMonth = DateTime(now.year, now.month);
 
-    await Future.delayed(Duration(seconds: 1));
-    List<Transaction> transactions = List.from(state.transactions ?? []);
-    transactions.insert(0, transaction);
-    emit(state.copyWith(
-      status: TransactionStatus.success,
-      transactions: transactions,
-    ));
+    return state.transactions?.where((transaction) {
+          final transactionDate = DateTime.parse(transaction.createdAt!);
+          return transactionDate.year == currentMonth.year &&
+              transactionDate.month == currentMonth.month;
+        }).toList() ??
+        [];
   }
 }

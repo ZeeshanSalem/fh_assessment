@@ -89,7 +89,6 @@ class HomeCubit extends BaseCubit<HomeState> {
       num balance = user.totalBalance ?? 0;
       num chargedAmount = num.tryParse('${transaction?.amount}') ?? 0;
 
-      print(" state.user?.id${state.user?.id} == transaction?.id${transaction?.accountNumber}");
 
       // here it's mean we add credit in our own account.
       if (state.user?.id == transaction?.accountNumber &&

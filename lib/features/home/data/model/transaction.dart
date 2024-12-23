@@ -5,7 +5,7 @@ class Transaction {
   String? beneficiary;
   TransactionType? type;
   String? amount;
-  String? accountNumber;
+  String? accountNumber; // it's register phone number
   String? currency;
   String? id; // will be generated in server.
 

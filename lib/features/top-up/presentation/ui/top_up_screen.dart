@@ -2,8 +2,10 @@ import 'package:fh_assignment/core/common_widgets/common_widget.dart';
 import 'package:fh_assignment/core/utils/app_colors.dart';
 import 'package:fh_assignment/core/utils/constants.dart';
 import 'package:fh_assignment/core/utils/enums.dart';
+import 'package:fh_assignment/core/utils/transaction_validator.dart';
 import 'package:fh_assignment/core/utils/typography.dart';
 import 'package:fh_assignment/features/home/data/model/transaction.dart';
+import 'package:fh_assignment/features/home/data/model/user.dart';
 import 'package:fh_assignment/features/home/presentation/cubit/home_cubit.dart';
 import 'package:fh_assignment/features/home/presentation/cubit/transaction/transaction_cubit.dart';
 import 'package:fh_assignment/features/top-up/presentation/cubit/beneficiary/beneficiary_cubit.dart';
@@ -104,19 +106,14 @@ class TopUpScreen extends StatelessWidget {
                         .read<HomeCubit>()
                         .updateMyBalance(state.latestTransaction);
 
-                    context.read<TransactionCubit>().addLocal(state.latestTransaction);
-
-
-
                     _hideOverlay(context);
                     _showMessage(TopUpStatus.success, context);
                   }
 
-                  if(state.status == TopUpStatus.failure){
+                  if (state.status == TopUpStatus.failure) {
                     _hideOverlay(context);
                     _showMessage(TopUpStatus.failure, context);
                   }
-
                 },
                 builder: (context, state) {
                   if (state.selectedAmount == null ||
@@ -129,20 +126,42 @@ class TopUpScreen extends StatelessWidget {
                       width: double.maxFinite,
                       child: ElevatedButton(
                           onPressed: () {
-                            // context.loaderOverlay.show();
+                            context.loaderOverlay.show();
+                            Transaction newTransaction = Transaction(
+                              createdAt: DateTime.now().toIso8601String(),
+                              beneficiary:
+                                  '${state.selectedBeneficiary?.nickName}',
+                              type: TransactionType.debt,
+                              accountNumber: '${state.selectedBeneficiary?.id}',
+                              amount: '${state.selectedAmount}',
+                              currency: Constant.currency,
+                            );
 
-                            context.read<TopUpCubit>().onTopUp(
-                                  Transaction(
-                                    createdAt: DateTime.now().toIso8601String(),
-                                    beneficiary:
-                                        '${state.selectedBeneficiary?.nickName}',
-                                    type: TransactionType.debt,
-                                    accountNumber:
-                                        '${state.selectedBeneficiary?.id}',
-                                    amount: '${state.selectedAmount}',
-                                    currency: Constant.currency,
-                                  ),
-                                );
+                            User? user = context.read<HomeCubit>().state.user;
+                            final transactionCubit =
+                                context.read<TransactionCubit>();
+
+                            TransactionValidationResult result =
+                                transactionCubit.validateTransaction(
+                                    newTransaction,
+                                    user?.accountStatus ?? false,
+                                    user?.totalBalance ?? 0);
+
+                            if (result.isValid) {
+                              context
+                                  .read<TopUpCubit>()
+                                  .onTopUp(newTransaction);
+                            } else {
+                              context.loaderOverlay.hide();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                customSnackBar(
+                                  status: SnackBarStatusEnum.failure,
+                                  context: context,
+                                  msg: result.errorMessage ??
+                                      Constant.transactionUnSuccessMsg,
+                                ),
+                              );
+                            }
                           },
                           child: Text(
                             'Pay',
