@@ -23,16 +23,12 @@ void main() {
   late MockLogger mockLogger;
   late MockSharedPreferences mockSharedPreferences;
   late TransactionCubit cubit;
-  late PreferencesUtil preferencesUtil;
 
 
   setUp(() {
     mockHomeRepository = MockHomeRepository();
     mockLogger = MockLogger();
     mockSharedPreferences = MockSharedPreferences();
-    preferencesUtil =
-        PreferencesUtil(preferences: mockSharedPreferences, logger: mockLogger);
-
     final getIt = GetIt.instance;
     getIt.registerSingleton<HomeRepository>(mockHomeRepository);
     getIt.registerSingleton<AppLogger>(mockLogger);

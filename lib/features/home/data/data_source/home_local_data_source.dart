@@ -50,7 +50,8 @@ class HomeLocalDataSourceImpl extends HomeLocalDataSource {
       } else {
         return _loadJsonData();
       }
-    } catch (e, s) {
+    } catch (e) {
+
       throw GeneralException(
         message: 'Failed: $e',
       );

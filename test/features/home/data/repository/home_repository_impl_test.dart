@@ -1,11 +1,9 @@
-import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:fh_assignment/core/error/exception.dart';
 import 'package:fh_assignment/core/network/network_info.dart';
 import 'package:fh_assignment/core/utils/enums.dart';
 import 'package:fh_assignment/features/home/data/data_source/home_local_data_source.dart';
 import 'package:fh_assignment/features/home/data/model/transaction.dart';
-import 'package:fh_assignment/features/home/data/model/user.dart';
 import 'package:fh_assignment/features/home/data/repository/home_repository_impl.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';

@@ -32,7 +32,6 @@ Future<void> initDi() async {
           lineLength: 50,
           colors: true,
           printEmojis: true,
-          printTime: true,
         ),
       ),
     );

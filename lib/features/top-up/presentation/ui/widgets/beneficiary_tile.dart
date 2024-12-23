@@ -83,7 +83,9 @@ class BeneficiaryTile extends StatelessWidget {
                       );
                     }).then((value) {
                   if (value == true) {
-                    _onDelete(context);
+                    if (context.mounted) {
+                      _onDelete(context);
+                    }
                   }
                 });
               }

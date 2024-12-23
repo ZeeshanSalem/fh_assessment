@@ -14,9 +14,9 @@ class F {
   static String get baseUrl {
     switch (appFlavor) {
       case Flavor.dev:
-        return baseUrl;
+        return '';
       case Flavor.prod:
-        return baseUrl;
+        return '';
       default:
         return '';
     }
