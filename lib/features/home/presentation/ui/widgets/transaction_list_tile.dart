@@ -32,7 +32,7 @@ class TransactionListTile extends StatelessWidget {
       return ListView.separated(
         physics: NeverScrollableScrollPhysics(),
         padding: EdgeInsets.symmetric(vertical: 10),
-        reverse: true,
+        reverse: false,
         itemBuilder: (context, index) => TransactionTile(
           transaction: state.transactions![index],
         ),

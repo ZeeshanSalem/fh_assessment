@@ -13,7 +13,7 @@ class TransactionCubit extends BaseCubit<TransactionState> {
     required this.homeRepository,
   }) : super(TransactionState(
           status: TransactionStatus.initial,
-        )){
+        )) {
     getTransactions();
   }
 
@@ -32,9 +32,11 @@ class TransactionCubit extends BaseCubit<TransactionState> {
           ),
         );
       }, (r) {
+
+        List<Transaction> reverseList = r.reversed.toList();
         emit(state.copyWith(
           status: TransactionStatus.success,
-          transactions: r,
+          transactions: reverseList,
         ));
       });
     } catch (e, s) {
@@ -47,15 +49,11 @@ class TransactionCubit extends BaseCubit<TransactionState> {
     }
   }
 
-
   Future<void> addTransaction(Transaction transaction) async {
     try {
       emit(state.copyWith(
         status: TransactionStatus.addingTransaction,
       ));
-
-
-
 
       final response = await homeRepository.addTransaction(transaction);
 
@@ -70,6 +68,8 @@ class TransactionCubit extends BaseCubit<TransactionState> {
         List<Transaction> transaction = List.from(state.transactions ?? []);
 
         transaction.add(r);
+
+        transaction.reversed.toList();
         emit(state.copyWith(
           status: TransactionStatus.transactionAdded,
           transactions: transaction,
@@ -84,6 +84,4 @@ class TransactionCubit extends BaseCubit<TransactionState> {
       ));
     }
   }
-
-
 }
