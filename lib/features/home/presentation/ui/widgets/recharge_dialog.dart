@@ -1,8 +1,9 @@
 import 'package:fh_assignment/core/utils/app_colors.dart';
+import 'package:fh_assignment/core/utils/constants.dart';
 import 'package:fh_assignment/core/utils/enums.dart';
 import 'package:fh_assignment/core/utils/typography.dart';
-import 'package:fh_assignment/core/utils/utils.dart';
 import 'package:fh_assignment/features/home/data/model/transaction.dart';
+import 'package:fh_assignment/features/home/presentation/cubit/home_cubit.dart';
 import 'package:fh_assignment/features/home/presentation/cubit/transaction/transaction_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,13 +36,14 @@ class _RechargeDialogState extends State<RechargeDialog> {
     if (_formKey.currentState!.validate()) {
       context.read<TransactionCubit>().addTransaction(Transaction(
             createdAt: DateTime.now().toIso8601String(),
-            beneficiary: 'MyAccount',
+            beneficiary: '${context.read<HomeCubit>().state.user?.name}',
             type: TransactionType.credit,
-            accountNumber: '',
+            accountNumber: '${context.read<HomeCubit>().state.user?.id}',
             amount: _amountController.text,
-            currency: 'AED',
+            currency: Constant.currency,
             // id: Utils.generateTransactionID(),
           ));
+
       Navigator.of(context).pop();
     }
   }
@@ -76,8 +78,8 @@ class _RechargeDialogState extends State<RechargeDialog> {
                   if (value == null || value.isEmpty) {
                     return "Amount is required";
                   }
-                  if (value.length != 4) {
-                    return "Amount must be 4 digits";
+                  if (value.length > 4) {
+                    return "Amount must not be greater than 4 digits";
                   }
                   if (!RegExp(r'^\d+$').hasMatch(value)) {
                     return "Amount must be numeric";
