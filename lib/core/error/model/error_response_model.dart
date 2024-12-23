@@ -30,7 +30,7 @@ class ErrorModel extends Equatable {
     code = json['code'];
     message = json['message'];
     details = json['details'];
-    if (json['validationErrors'] != null) {
+    if (json['validationErrors'] != null && json['validationErrors'] is List) {
       validationErrors = <ValidationErrors>[];
       json['validationErrors'].forEach((v) {
         validationErrors!.add(ValidationErrors.fromJson(v));

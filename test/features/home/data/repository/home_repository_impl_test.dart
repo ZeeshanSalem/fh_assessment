@@ -32,12 +32,7 @@ void main() {
     currency: 'AED',
   );
   final tTransactions = [tTransaction];
-  final tUser = User(
-    name: "Zeeshan Saleem",
-    id: "+971524691686",
-    totalBalance: 1000.0,
-    accountStatus: false,
-  );
+
 
   setUp(() {
     mockHomeRemoteDataSource = MockHomeLocalDataSource();

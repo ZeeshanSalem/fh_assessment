@@ -22,7 +22,7 @@ class Transaction extends Equatable {
   Transaction.fromJson(Map<String, dynamic> json) {
     createdAt = json['createdAt'];
     beneficiary = json['beneficiary'];
-    type = _transactionTypeFromString(json['type']); // Map string to enum
+    type = json['type'] != null ? _transactionTypeFromString(json['type']) : null; // Map string to enum
     amount = json['amount'];
     accountNumber = json['accountNumber'];
     currency = json['currency'];
@@ -51,7 +51,6 @@ class Transaction extends Equatable {
   }
 
   @override
-  // TODO: implement props
   List<Object?> get props =>
       [createdAt, beneficiary, type, amount, accountNumber, currency, id];
 }

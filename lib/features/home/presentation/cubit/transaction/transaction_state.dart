@@ -24,7 +24,7 @@ class TransactionState extends Equatable {
   }) {
     return TransactionState(
       status: status ?? this.status,
-      errorModel: errorModel ?? this.errorModel,
+      errorModel: errorModel ,
       transactions: transactions ?? this.transactions,
     );
   }
