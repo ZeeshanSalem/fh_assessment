@@ -1,7 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:dio/dio.dart';
-import 'package:fh_assignment/core/error/model/error_response_model.dart';
-import 'package:fh_assignment/core/utils/enums.dart';
 import 'package:fh_assignment/core/utils/preferences_utils.dart';
 import 'package:fh_assignment/features/home/data/model/transaction.dart';
 import 'package:fh_assignment/features/home/domain/repository/home_repository.dart';
@@ -9,8 +6,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:get_it/get_it.dart';
-
-import 'package:fh_assignment/core/error/exception.dart';
 import 'package:fh_assignment/core/logger/app_logger.dart';
 import 'package:fh_assignment/features/home/presentation/cubit/transaction/transaction_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';

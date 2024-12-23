@@ -24,14 +24,25 @@ class _SplashScreenState extends State<SplashScreen> {
     context.read<HomeCubit>().getMyProfile();
   }
 
+  /*
+  * To Add some delay on splash screen
+  * */
+  Future<bool> _dummy() async {
+    await Future.delayed(Duration(milliseconds: 200));
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<HomeCubit, HomeState>(
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state.status == HomeStatus.success) {
-          context.goNamed(
-            Routes.homeRoute,
-          );
+          await Future.delayed(Duration(milliseconds: 400));
+          if (context.mounted) {
+            context.goNamed(
+              Routes.homeRoute,
+            );
+          }
         }
       },
       child: Scaffold(
@@ -40,7 +51,6 @@ class _SplashScreenState extends State<SplashScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              /// todo: add font style.
               Text(
                 'Finance House',
                 style: AppTypography.lightTheme.titleLarge,
