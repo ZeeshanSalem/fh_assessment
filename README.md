@@ -1,4 +1,4 @@
-# Finance House Technical Assessment
+#  Technical Assessment
 
 This project serves as a starting point for a Flutter application designed for mobile top-ups.
 
