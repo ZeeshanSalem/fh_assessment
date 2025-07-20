@@ -13,9 +13,9 @@ This project serves as a starting point for a Flutter application designed for m
 5. **Monthly Transfer Limit**: Users can transfer up to **3000 AED** to all beneficiaries per month.
 6. **Transaction Fees**: A fee of **3 AED** is applied per transaction.
 
-## Demo
 
-[fh-TopUp Application Demo](https://www.youtube.com/watch?v=cOMhJ_YKKas) - Here is the application demo.
+
+
 
 ## Required Versions
 
@@ -56,7 +56,7 @@ To run the test cases, use the following commands:
 
 3. You can also run tests directly in your editor.
 # Project Structure
-fh-assignment/Project-Structure
+/Project-Structure
 │
 ├── android/                     # Contain android-specific files
 │
